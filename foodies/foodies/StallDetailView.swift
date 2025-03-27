@@ -24,12 +24,12 @@ struct StallDetailView: View {
                 .frame(width: 50, height: 10)
             Text(String(format: "Rating: %.1f", stall.rating))
             Text("Location: \(stall.location)")
-            Text("Cuisine: \(stall.cuisine.joined(separator: ", "))")
+            Text("Category: \(stall.category.joined(separator: ", "))")
                 .font(.caption)
             Text("Payment Methods: \(stall.paymentMethod.joined(separator: ", "))")
                 .font(.caption)
             
-            Text("Price Range: \(stall.priceRange)")
+            Text("Price Range: \(stall.lowestPrice) - \(stall.highestPrice)k")
                 .font(.caption)
                 
             Text(stall.details)

@@ -23,7 +23,7 @@ struct ContentView: View {
     ]
     
     var body: some View {
-        StallsCard(stall: Stall(name: "asd", image: "", rating: 0.0, location: "asdsa", cuisine: [], priceRange: "sdadsa", paymentMethod: [], details: ""))
+        StallsCard(stall: Stall(name: "asd", image: "", rating: 0.0, location: "asdsa", category: [], lowestPrice: 5, highestPrice: 10, paymentMethod: [], details: ""))
         /*Stack {
             // nambahin background (gambar background masih contoh aja, masih coba2 pake background)
             Image("backgroundawal")
