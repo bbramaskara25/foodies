@@ -1,65 +1,79 @@
-//
-//  ContentView.swift
-//  foodies
-//
-//  Created by Bryan Bramaskara on 20/03/25.
-//
-
 import SwiftUI
 import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var items: [Time]
-    
+
     @AppStorage("userName") private var userName: String = ""
-    
+    @State var showChatView: Bool
+    @State var messages: [ChatMessage]
+
+    init(showChatView: Bool = false, messages: [ChatMessage] = []) {
+        self._showChatView = State(initialValue: showChatView)
+        self._messages = State(initialValue: messages)
+    }
+
     var body: some View {
         NavigationSplitView {
             VStack(spacing: 0) {
-                // Header View
                 headerView
-                
-                List {
-                    ForEach(items) { item in
-                        NavigationLink {
-                            Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                        } label: {
-                            Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
+                    .frame(maxWidth: .infinity)
+                    .background(Color(hex: "13A435"))
+
+                if showChatView {
+                    ChatView()
+                } else {
+                    VStack(spacing: 40) {
+                        VStack(alignment: .center, spacing: 20) {
+                            Text("Hey there!\nNot sure what to eat?\nTry our budget-friendly picks!")
+                                .multilineTextAlignment(.center)
+                                .padding()
+                                .background(Color(hex: "DCF8C6"))
+                                .foregroundColor(.black)
+                                .cornerRadius(16)
+                                .shadow(radius: 2)
+
+                            Button(action: {
+                                messages = [
+                                    ChatMessage(message: "Welcome to the chat!", isUser: false),
+                                    ChatMessage(message: "How can I assist you today?", isUser: false)
+                                ]
+                                showChatView = true
+                            }) {
+                                Text("Start Here")
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(.white)
+                                    .padding()
+                                    .frame(maxWidth: .infinity)
+                                    .background(Color(hex: "13A435"))
+                                    .cornerRadius(20)
+                            }
+                            .padding(.horizontal, 30)
                         }
+                        .padding()
+
+                        Spacer()
                     }
-                    .onDelete(perform: deleteItems)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
-//                .toolbar {
-//                    ToolbarItem(placement: .navigationBarTrailing) {
-//                        EditButton()
-//                    }
-//                    ToolbarItem {
-//                        Button(action: addItem) {
-//                            Label("Add Item", systemImage: "plus")
-//                        }
-//                    }
-//                }
             }
-        } detail: {
-            Text("Select an item")
-        }
+        } detail: {}
         .onAppear {
             promptForUserName()
         }
+        .navigationBarBackButtonHidden(true)
+        .toolbar(.hidden, for: .navigationBar)
     }
-    
-    // Header View
+
+    // MARK: - Header View
     private var headerView: some View {
         HStack {
-            // Logo on the left
-            Image("foodies") // Ensure "logo.png" exists in your assets
+            Image("foodies")
                 .resizable()
                 .frame(width: 80, height: 25)
                 .padding(.leading)
 
-
-            // Greeting Message with User's Name
             Text("\(greetingMessage), \(userName)!")
                 .font(.headline)
                 .padding(.horizontal)
@@ -68,42 +82,19 @@ struct ContentView: View {
             Spacer()
         }
         .padding(.vertical)
-        .background(Color(hex: "13A435")) // Optional background color
+        .background(Color(hex: "13A435"))
     }
 
-    // Dynamic Greeting
     private var greetingMessage: String {
         let hour = Calendar.current.component(.hour, from: Date())
         switch hour {
-        case 6..<12:
-            return "Good Morning"
-        case 12..<17:
-            return "Good Afternoon"
-        case 17..<21:
-            return "Good Evening"
-        default:
-            return "Good Night"
+        case 6..<12: return "Good Morning"
+        case 12..<17: return "Good Afternoon"
+        case 17..<21: return "Good Evening"
+        default: return "Good Night"
         }
     }
 
-    // Add Item Function
-    private func addItem() {
-        withAnimation {
-            let newItem = Time(timestamp: Date())
-            modelContext.insert(newItem)
-        }
-    }
-
-    // Delete Item Function
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(items[index])
-            }
-        }
-    }
-
-    // Asking for User's Name
     private func promptForUserName() {
         if userName.isEmpty {
             DispatchQueue.main.async {
@@ -116,8 +107,6 @@ struct ContentView: View {
                         userName = inputText
                     }
                 })
-
-                // Presenting the alert through the root view controller
                 if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
                    let window = windowScene.windows.first {
                     window.rootViewController?.present(alert, animated: true)
@@ -125,8 +114,18 @@ struct ContentView: View {
             }
         }
     }
+
+    private func sendMessage(_ text: String) {
+        messages.append(ChatMessage(message: text, isUser: true))
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            let botResponse = ChatMessage(message: "You chose: \(text). How can I further assist you?", isUser: false)
+            messages.append(botResponse)
+        }
+    }
 }
 
+// MARK: - Hex Color Extension
 extension Color {
     init(hex: String) {
         let scanner = Scanner(string: hex)
@@ -142,7 +141,14 @@ extension Color {
     }
 }
 
+// MARK: - Preview with ChatView Hidden Initially
 #Preview {
-    ContentView()
+    ContentViewPreviewWrapper()
         .modelContainer(for: Time.self, inMemory: true)
+}
+
+private struct ContentViewPreviewWrapper: View {
+    var body: some View {
+        ContentView()
+    }
 }
