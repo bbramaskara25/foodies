@@ -15,6 +15,7 @@ struct StartPage: View {
                 .resizable()
                 .scaledToFill()
                 .edgesIgnoringSafeArea(.all)
+                .opacity(viewModel.hasStarted ? 0.4 : 1.0)
             
             VStack {
                 if !viewModel.hasStarted {
@@ -28,7 +29,7 @@ struct StartPage: View {
                                 .resizable()
                                 .scaledToFill()
                                 .frame(width: 150, height: 50)
-                                .opacity(viewModel.hasStarted ? 0.5 : 1.0)
+                                .opacity(viewModel.hasStarted ? 0.2 : 1.0)
                         }
                     }
                     .padding()
@@ -36,7 +37,7 @@ struct StartPage: View {
                     ScrollViewReader { proxy in
                         ScrollView {
                             VStack(alignment: .leading, spacing: 15) {
-                                ForEach(viewModel.chatMessages.indices, id: \ .self) { index in
+                                ForEach(viewModel.chatMessages.indices, id: \.self) { index in
                                     let message = viewModel.chatMessages[index]
                                     
                                     if message.isOption && !message.isAnswered {
@@ -67,6 +68,7 @@ struct StartPage: View {
         }
     }
 }
+
 
 struct CStartPage_Previews: PreviewProvider {
     static var previews: some View {

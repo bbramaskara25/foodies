@@ -1,18 +1,12 @@
-//
-//  ChatBubble.swift
-//  foodies
-//
-//  Created by Eliza Vornia on 04/04/25.
-//
 import SwiftUI
 
 struct ChatBubble: View {
     let text: String
     let isUser: Bool
     var onUndo: (() -> Void)? = nil
-    
+
     var body: some View {
-        HStack {
+        HStack(alignment: .bottom, spacing: 8) {
             if isUser {
                 Spacer()
                 HStack(spacing: 8) {
@@ -21,37 +15,31 @@ struct ChatBubble: View {
                         .background(SpeechBubbleShape(isUser: true).fill(Color.white))
                         .foregroundColor(.black)
                         .font(.body)
-                    if let onUndo = onUndo {
-                        Button(action: onUndo) {
-                            Image(systemName: "square.and.pencil.circle.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 28, height: 28)
-                                .foregroundColor(.red)
-                                
-                        }
-                        .padding(.trailing, 5)
-                    }
                 }
+                .padding(.trailing)
             } else {
-                HStack {
+                HStack(alignment: .bottom, spacing: 1) {
+                    Image("maskotTelur")
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                        .clipShape(Circle())
+                        .padding(.leading, 4) // Pushes avatar to left edge more tightly
+                    
                     Text(text)
                         .padding()
-                        .background(SpeechBubbleShape(isUser: false).fill(Color.white.opacity(0.8)))
+                        .background(SpeechBubbleShape(isUser: false).fill(Color.yellow.opacity(0.8)))
                         .foregroundColor(.black)
                         .font(.body)
+                    
                     Spacer()
                 }
+                .padding(.leading, 4) // Keeps overall left side tight
             }
         }
+        .padding(.vertical, 4)
     }
 }
-
 #Preview {
-    VStack {
-        ChatBubble(text: "Halo, El!", isUser: false)
-        ChatBubble(text: "Hai haii!", isUser: true, onUndo: {})
-    }
-    .padding()
-    .background(Color.gray.opacity(0.2))
+    ChatBubble(text: "Hello", isUser: false)
+    ChatBubble(text: "Hello, world!", isUser: true)
 }
