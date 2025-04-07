@@ -16,7 +16,7 @@ struct OptionButtonsView: View {
             ForEach(options, id: \ .self) { option in
                 Button(action: { onSelect(option) }) {
                     Text(option)
-                        .font(.subheadline)
+                        .font(.caption)
                         .padding()
                         .background(Color.red.opacity(0.8))
                         .foregroundColor(.white)

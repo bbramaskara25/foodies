@@ -70,6 +70,6 @@ struct StartPage: View {
 
 struct CStartPage_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        StartPage()
     }
 }

@@ -20,6 +20,7 @@ struct Stall: Codable, Identifiable{
     var details: String
     var wasOrdered: Bool = false
     var menuList: [Menu] = [] //menyimpan daftar menu spesifik setiap stall
+    var whatsAppNumber: String
 }
 
 
@@ -38,7 +39,8 @@ extension Stall {
                 Menu(name: "Nasi Goreng", price: 12),
                 Menu(name: "Nasi Goreng", price: 14),
                 Menu( name: "Nasi Goreng", price: 15)
-            ]
+            ],
+            whatsAppNumber: "6287762149023"
         ),
         Stall(
             name: "Ahza Snack & Beverage",
@@ -84,76 +86,100 @@ extension Stall {
                 Menu( name: "Pulpy Orange 300 ml", price: 5000),
                 Menu( name: "Nutriboost", price: 7000),
                 Menu( name: "Pocari", price: 7000)
+            ],
+            whatsAppNumber: "6287755316269"
 
-            ]
         ),
         Stall(name: "Soto Pak Gembul", images: ["Kasturi", "Kasturi", "Kasturi"], rating: 5.0, location: "GOP 9", category: ["Vegetables", "Western Food"], lowestPrice: 7, highestPrice: 25, paymentMethod: ["Cash", "QR", "Transfer"], details: "loremkdsfjik",  menuList: [
             Menu(name: "Nasi Goreng", price: 10),
             Menu(name: "Nasi Goreng", price: 12),
             Menu(name: "Nasi Goreng", price: 14),
             Menu( name: "Nasi Goreng", price: 15),
-        ]),
+        ],
+              whatsAppNumber: "6287762149023"
+
+             ),
         Stall(name: "Kedai Aneka Rasa", images: ["Kasturi", "Kasturi", "Kasturi"], rating: 5.0, location: "GOP 9", category: ["Snacks", "Western Food"], lowestPrice: 10, highestPrice: 30, paymentMethod: ["Cash", "QR", "Transfer"], details: "loremkdsfjik",  menuList: [
             Menu(name: "Nasi Goreng", price: 10),
             Menu(name: "Nasi Goreng", price: 12),
             Menu(name: "Nasi Goreng", price: 14),
             Menu( name: "Nasi Goreng", price: 15),
-        ]),
+        ],
+              whatsAppNumber: "6287755316269"
+
+             ),
         Stall(name: "Kedai 2 Nyonya", images: ["Kasturi", "Kasturi", "Kasturi"], rating: 5.0, location: "GOP 9", category: ["Indonesian Food", "Western Food"], lowestPrice: 15, highestPrice: 15, paymentMethod: ["Cash", "QR", "Transfer"], details: "loremkdsfjik",  menuList: [
             Menu(name: "Nasi Goreng", price: 10),
             Menu(name: "Nasi Goreng", price: 12),
             Menu(name: "Nasi Goreng", price: 14),
             Menu( name: "Nasi Goreng", price: 15),
-        ]),
+        ],
+              whatsAppNumber: "6287755316269"
+),
         Stall(name: "Kantin Kasturi", images: ["Kasturi", "Kasturi", "Kasturi"], rating: 5.0, location: "GOP 9", category: ["Indonesian Food", "Western Food"], lowestPrice: 20, highestPrice: 22, paymentMethod: ["Cash", "QR", "Transfer"], details: "loremkdsfjik",  menuList: [
             Menu(name: "Nasi Goreng", price: 10),
             Menu(name: "Nasi Goreng", price: 12),
             Menu(name: "Nasi Goreng", price: 14),
             Menu( name: "Nasi Goreng", price: 15),
-        ]),
+        ],
+              whatsAppNumber: "6287755316269"
+),
         Stall(name: "Kedai Laris Manis", images: ["Kasturi", "Kasturi", "Kasturi"], rating: 5.0, location: "GOP 9", category: ["Indonesian Food", "Western Food"], lowestPrice: 12, highestPrice: 20, paymentMethod: ["Cash", "QR", "Transfer"], details: "loremkdsfjik",  menuList: [
             Menu(name: "Chicken Salted Egg Rice+Egg", price: 20000),
             Menu(name: "Rice Bowl Chicken Yakiniku+Egg", price: 16000),
             Menu(name: "Rice Bowl Cumi Pete", price: 16000),
             Menu( name: "Rice Bowl Chicken Pop Corn", price: 16000)
-            
-        ]),
+        ],
+              whatsAppNumber: "6287755316269"
+),
         Stall(name: "La Ding", images: ["Kasturi", "Kasturi", "Kasturi"], rating: 5.0, location: "GOP 9", category: ["Indonesian Food", "Western Food"], lowestPrice: 11, highestPrice: 20, paymentMethod: ["Cash", "QR", "Transfer"], details: "loremkdsfjik",  menuList: [
             Menu(name: "Nasi Goreng", price: 10),
             Menu(name: "Nasi Goreng", price: 12),
             Menu(name: "Nasi Goreng", price: 14),
             Menu( name: "Nasi Goreng", price: 15),
-        ]),
+        ],
+              whatsAppNumber: "6287755316269"
+),
         Stall(name: "Mama Djempol", images: ["Kasturi", "Kasturi", "Kasturi"], rating: 5.0, location: "GOP 9", category: ["Indonesian Food", "Western Food"], lowestPrice: 5, highestPrice: 20, paymentMethod: ["Cash", "QR", "Transfer"], details: "loremkdsfjik",  menuList: [
             Menu(name: "Nasi Goreng", price: 10),
             Menu(name: "Nasi Goreng", price: 12),
             Menu(name: "Nasi Goreng", price: 14),
             Menu( name: "Nasi Goreng", price: 15),
-        ]),
+        ],
+              whatsAppNumber: "66287755316269"
+),
         Stall(name: "Ikan & Bakso Bakwan Malang Josss", images: ["Kasturi", "Kasturi", "Kasturi"], rating: 5.0, location: "GOP 9", category: ["Indonesian Food", "Western Food"], lowestPrice: 5, highestPrice: 20, paymentMethod: ["Cash", "QR", "Transfer"], details: "loremkdsfjik",  menuList: [
             Menu(name: "Nasi Goreng", price: 10),
             Menu(name: "Nasi Goreng", price: 12),
             Menu(name: "Nasi Goreng", price: 14),
             Menu( name: "Nasi Goreng", price: 15),
-        ]),
+        ],
+              whatsAppNumber: "6287755316269"
+),
         Stall(name: "Dapur Mimin", images: ["Kasturi", "Kasturi", "Kasturi"], rating: 5.0, location: "GOP 6", category: ["Indonesian Food", "Western Food"], lowestPrice: 5, highestPrice: 20, paymentMethod: ["Cash", "QR", "Transfer"], details: "loremkdsfjik",  menuList: [
             Menu(name: "Nasi Goreng", price: 10),
             Menu(name: "Nasi Goreng", price: 12),
             Menu(name: "Nasi Goreng", price: 14),
             Menu( name: "Nasi Goreng", price: 15),
-        ]),
+        ],
+              whatsAppNumber: "6287755316269"
+),
         Stall(name: "Warkop Pais", images: ["Kasturi", "Kasturi", "Kasturi"], rating: 5.0, location: "GOP 6", category: ["Indonesian Food", "Western Food"], lowestPrice: 5, highestPrice: 20, paymentMethod: ["Cash", "QR", "Transfer"], details: "loremkdsfjik",  menuList: [
             Menu(name: "Nasi Goreng", price: 10),
             Menu(name: "Nasi Goreng", price: 12),
             Menu(name: "Nasi Goreng", price: 14),
             Menu( name: "Nasi Goreng", price: 15),
-        ]),
+        ],
+              whatsAppNumber: "6287755316269"
+),
         Stall(name: "Nasi Kapau Nusantara", images: ["Kasturi", "Kasturi", "Kasturi"], rating: 5.0, location: "GOP 6", category: ["Indonesian Food", "Western Food"], lowestPrice: 5, highestPrice: 20, paymentMethod: ["Cash", "QR", "Transfer"], details: "loremkdsfjik",  menuList: [
             Menu(name: "Nasi Goreng", price: 10),
             Menu(name: "Nasi Goreng", price: 12),
             Menu(name: "Nasi Goreng", price: 14),
             Menu( name: "Nasi Goreng", price: 15),
-        ]),
+        ],
+              whatsAppNumber: "6287755316269"
+),
         // padang yg rame itu tp gatau namanya
         Stall(name: "Dapur Kencana", images: ["Kasturi", "Kasturi", "Kasturi"], rating: 5.0, location: "GOP 1", category: ["Indonesian Food", "Western Food"], lowestPrice: 5, highestPrice: 20, paymentMethod: ["Cash", "QR", "Transfer"], details: "loremkdsfjik",  menuList: [
             Menu(name: "Nasi Putih", price: 6000),
@@ -207,6 +233,8 @@ extension Stall {
             Menu(name: "Air Mineral", price: 5000),
             Menu(name: "Hot/Ice Coffee Tubruk", price: 8000),
             Menu(name: "ot/Ice Coffee drip", price: 15000),
-        ])
+        ],
+              whatsAppNumber: "6287755316269"
+)
     ]
 }

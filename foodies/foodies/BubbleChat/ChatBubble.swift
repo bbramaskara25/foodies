@@ -20,7 +20,7 @@ struct ChatBubble: View {
                         .padding()
                         .background(SpeechBubbleShape(isUser: true).fill(Color.white))
                         .foregroundColor(.black)
-                        .font(.title2)
+                        .font(.body)
                     if let onUndo = onUndo {
                         Button(action: onUndo) {
                             Image(systemName: "square.and.pencil.circle.fill")
@@ -39,7 +39,7 @@ struct ChatBubble: View {
                         .padding()
                         .background(SpeechBubbleShape(isUser: false).fill(Color.white.opacity(0.8)))
                         .foregroundColor(.black)
-                        .font(.title2)
+                        .font(.body)
                     Spacer()
                 }
             }

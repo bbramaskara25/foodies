@@ -45,11 +45,18 @@ struct StallDetailView: View {
             
             HStack {
                 // Passing the formatted menu list to MenuPage
-                NavigationLink(destination: MenuPage(menuList: stall.menuList.map { ($0.name, Int($0.price)) })) {
+                NavigationLink(
+                    destination: MenuPage(
+                        menuList: stall.menuList.map { ($0.name, Int($0.price)) },
+                        whatsAppNumber: stall.whatsAppNumber
+                    )
+                )
+ {
                     Text("View Menu")
                         .padding()
                         .foregroundColor(.blue)
                 }
+
                 .padding(.trailing)
                 
                 Button {
