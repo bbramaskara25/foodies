@@ -67,7 +67,7 @@ struct StallsPage: View {
     var body: some View {
         NavigationStack {
             List(filteredStalls, id: \.id) { stall in
-                NavigationLink(destination: StallDetailView(stall: stall)
+                NavigationLink(destination: MenuPage(stall: stall)
                     .modelContainer(for: OrderItem.self)) {
                     StallsCard(stall: stall)
                 }

@@ -29,17 +29,7 @@ struct StallsCard: View {
                         .font(.headline)
                     
                     Spacer()
-                    
-                    Button {
-                        // action
-                    } label: {
-                        Image(systemName: "star.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 15, height: 15)
-                            .foregroundColor(.orange)
-                        Text(String(stall.rating))
-                    }.padding()
+                       
                 }
                 
                 HStack{
@@ -53,10 +43,6 @@ struct StallsCard: View {
                         .foregroundColor(.gray)
                 }
                 
-                    
-                
-                
-                HStack{
                     HStack{
                         Image(systemName: "wallet.bifold.fill")
                             .resizable()
@@ -69,7 +55,17 @@ struct StallsCard: View {
                             .foregroundColor(.gray)
                         
                     }
+                HStack{
+                    Image(systemName: "star.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 15, height: 15)
+                        .foregroundColor(.orange)
+                    Text(String(stall.rating))
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
                 }
+                
             }
         }
     }
