@@ -27,20 +27,94 @@ struct MenuPage: View {
     @State private var notes: String = ""
     @State private var showConfirmationModal = false
 
-    var menuList: [(name: String, price: Int)]
-    var whatsAppNumber: String
+//    var menuList: [(name: String, price: Int)]
+//    var whatsAppNumber: String
+    var stall: Stall
 
     var body: some View {
+        // Stall Detail Section
+        VStack(spacing: 10) {
+            
+                HStack{
+                    Image(stall.images[0])
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 100, height: 100)
+                        .cornerRadius(10)
+                        .padding(10)
+                    
+                    Spacer()
+                    
+                    VStack(alignment: .leading){
+                        HStack{
+                            Text(stall.name)
+                                .font(.headline)
+                            
+                            Spacer()
+                               
+                        }
+                        
+                        HStack{
+                            Image(systemName: "pin.circle.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 15, height: 15)
+                                .foregroundColor(.orange)
+                            Text(stall.location)
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                        }
+                        
+                            HStack{
+                                Image(systemName: "wallet.bifold.fill")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .foregroundColor(.orange)
+                                    .frame(width: 14, height: 14)
+                                
+                                Text("5K-20K")
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                                
+                            }
+                        HStack{
+                            Image(systemName: "star.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 15, height: 15)
+                                .foregroundColor(.orange)
+                            Text(String(stall.rating))
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                        }
+                        
+                    }
+                }
+    }
+        
+        // Menu Section
         VStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 10) {
-                    ForEach(menuList, id: \.name) { menu in
+                    HStack {
+                        Text("Menu Item")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .bold(true)
+                        Text("Price")
+                            .frame(width: 80, alignment: .leading)
+                            .bold(true)
+                        Text("Quantity")
+                            .frame(width: 100, alignment: .trailing)
+                            .bold(true)
+                    }
+                    .padding(.horizontal)
+                    ForEach(stall.menuList, id: \.name) { menu in
                         HStack {
                             Text(menu.name)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                            Text("Rp \(menu.price),-")
-                                .frame(width: 80, alignment: .trailing)
-                            Picker("Quantity", selection: bindingForMenu(menu.name, price: menu.price)) {
+                                .frame(maxWidth: 150, alignment: .leading)
+                            Text("Rp \(menu.price.formatted(.number.grouping(.automatic))),-")
+                                .frame(width: 100, alignment: .leading)
+                            Picker("Quantity", selection: bindingForMenu(menu.name, price: Int(menu.price))) {
                                 ForEach(0..<10, id: \.self) { num in
                                     Text("\(num)")
                                 }
@@ -52,32 +126,8 @@ struct MenuPage: View {
                 }
             }
 
+            // Total and Save Section
             VStack(alignment: .leading) {
-                Text("Notes:")
-                    .font(.headline)
-                TextField("Enter your notes here", text: $notes)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding(.bottom)
-
-                Text("Order Summary")
-                    .font(.headline)
-
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 5) {
-                        ForEach(orderItemsState.filter { $0.quantity > 0 }) { order in
-                            HStack {
-                                Text(order.menuName)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                Text("Rp \(order.price),-")
-                                    .frame(width: 80, alignment: .trailing)
-                                Text("x\(order.quantity)")
-                                    .frame(width: 40, alignment: .trailing)
-                            }
-                        }
-                    }
-                }
-                .frame(maxHeight: 150)
-
                 Text("Current Total (estimation): Rp \(calculateTotal()),-")
                     .font(.headline)
                     .padding(.top)
@@ -97,14 +147,15 @@ struct MenuPage: View {
         }
         .padding()
         .onAppear {
-            orderItemsState = menuList.map { OrderItem(menuName: $0.name, price: $0.price) }
-            print("📱 WhatsApp Nomor: \(whatsAppNumber)") // ✅ fixed
+            orderItemsState = stall.menuList.map { OrderItem(menuName: $0.name, price: Int($0.price)) }
+            print("📱 WhatsApp Nomor: \(stall.whatsAppNumber)") // ✅ fixed
         }
         .sheet(isPresented: $showConfirmationModal) {
             OrderConfirmationModal(
-                notes: notes,
+                notes: $notes,
                 orderItems: orderItemsState.filter { $0.quantity > 0 },
-                whatsAppNumber: whatsAppNumber, // ✅ fixed
+                whatsAppNumber: stall.whatsAppNumber, // ✅ fixed
+                estimatedTotal: calculateTotal(),
                 onPlaceOrder: {
                     saveOrder()
                     showConfirmationModal = false
@@ -158,12 +209,7 @@ struct MenuPage: View {
 
 #Preview {
     MenuPage(
-        menuList: [
-            ("Nasi Goreng", 25000),
-            ("Mie Ayam", 20000),
-            ("Bakso", 18000)
-        ],
-        whatsAppNumber: "6281234567890" // ✅ fixed argument label
+        stall: Stall.all[0]
     )
     .modelContainer(for: OrderItem.self, inMemory: true)
 }

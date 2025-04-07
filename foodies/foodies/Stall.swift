@@ -35,10 +35,10 @@ extension Stall {
             paymentMethod: ["Cash", "QR", "Transfer"],
             details: "loremkdsfjik",
             menuList: [
-                Menu(name: "Nasi Goreng", price: 10),
-                Menu(name: "Nasi Goreng", price: 12),
-                Menu(name: "Nasi Goreng", price: 14),
-                Menu( name: "Nasi Goreng", price: 15)
+                Menu(name: "Nasi Goreng", price: 10000),
+                Menu(name: "Nasi Aja", price: 12000),
+                Menu(name: "Nasi Gado-Gado", price: 14000),
+                Menu( name: "Nasi Ketupat", price: 15000)
             ],
             whatsAppNumber: "6287762149023"
         ),
