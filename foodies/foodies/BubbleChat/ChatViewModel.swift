@@ -9,8 +9,18 @@ class ChatViewModel: ObservableObject {
         var isAnswered: Bool = false
     }
 
+    struct Stall: Identifiable {
+        let id = UUID()
+        let name: String
+        let gop: String
+        let budget: String
+        let cuisine: String
+    }
+
     @Published var chatMessages: [ChatMessage] = []
     @Published var hasStarted: Bool = false
+    @Published var recommendedStalls: [Stall] = []
+
     private var currentQuestionIndex: Int = -1
     private let questions: [(text: String, options: [String])] = [
         ("Sekarang kamu ada di GOP berapa?", ["GOP 1", "GOP 6", "GOP 9", "Mau Explore Semua"]),
@@ -18,6 +28,14 @@ class ChatViewModel: ObservableObject {
         ("Apakah ada cuisine favorit kamu?", ["Indonesian", "Japanese", "Chinese", "Prefer not to mention"]),
         ("Berikut adalah rekomendasi dari kami, apakah kamu menyukainya?", ["Yes", "No"]),
         ("Apakah kamu menyukai aplikasi ini?", ["Yes", "No"])
+    ]
+
+    private let stalls: [Stall] = [
+        Stall(name: "Nasi Padang Maknyus", gop: "GOP 1", budget: "<20.000", cuisine: "Indonesian"),
+        Stall(name: "Sushi Go", gop: "GOP 6", budget: ">30.000", cuisine: "Japanese"),
+        Stall(name: "Dimsum Queen", gop: "GOP 9", budget: "20.000-30.000", cuisine: "Chinese"),
+        Stall(name: "Warung Bebas", gop: "GOP 1", budget: "Budgetnya Bebas", cuisine: "Indonesian"),
+        Stall(name: "Donburi Senpai", gop: "GOP 6", budget: "20.000-30.000", cuisine: "Japanese")
     ]
 
     private var previousAnswers: [(questionIndex: Int, answer: String)] = []
@@ -40,6 +58,10 @@ class ChatViewModel: ObservableObject {
             }
             chatMessages.append(ChatMessage(text: question.text, isUser: false, isOption: false, options: []))
             chatMessages.append(ChatMessage(text: "", isUser: false, isOption: true, options: optionsWithEdit))
+
+            if currentQuestionIndex == 3 { // before asking if user likes the recommendation
+                filterStalls()
+            }
         } else {
             chatMessages.append(ChatMessage(text: "Terima kasih sudah menggunakan Foodies! 😊", isUser: false, isOption: false, options: []))
         }
@@ -52,7 +74,6 @@ class ChatViewModel: ObservableObject {
         if answer == "Edit previous response" {
             guard !previousAnswers.isEmpty else { return }
 
-            // Remove current question and next bot message if present
             if chatMessages.count >= 2 {
                 let lastMessage = chatMessages.last
                 let secondLastMessage = chatMessages.dropLast().last
@@ -95,6 +116,27 @@ class ChatViewModel: ObservableObject {
                 currentQuestionIndex = chatMessages.prefix(realQuestionIndex).filter { !$0.isUser && !$0.isOption }.count
                 showNextQuestion()
             }
+        }
+    }
+
+    func filterStalls() {
+        var gop = ""
+        var budget = ""
+        var cuisine = ""
+
+        for (questionIndex, answer) in previousAnswers {
+            switch questionIndex {
+            case 0: gop = answer
+            case 1: budget = answer
+            case 2: cuisine = answer
+            default: break
+            }
+        }
+
+        recommendedStalls = stalls.filter { stall in
+            (gop == "Mau Explore Semua" || stall.gop == gop) &&
+            (budget == "Budgetnya Bebas" || stall.budget == budget) &&
+            (cuisine == "Prefer not to mention" || stall.cuisine == cuisine)
         }
     }
 }
