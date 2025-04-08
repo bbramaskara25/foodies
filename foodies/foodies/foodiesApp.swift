@@ -25,7 +25,7 @@ struct foodiesApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            StallsPage()
         }
         .modelContainer(sharedModelContainer)
     }
