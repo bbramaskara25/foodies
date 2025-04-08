@@ -26,7 +26,7 @@ struct FilterView: View {
                 )
                 FilterButton(
                     segmentTitle: "Price Range",
-                    itemTitle: ["<10k", "10-20k", ">20k"],
+                    itemTitle: ["<Rp 10k", "Rp 10-20k", ">Rp 20k"],
                     selectedFilters: $selectedFilters
                 )
                 FilterButton(

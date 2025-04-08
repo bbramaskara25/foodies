@@ -3,7 +3,7 @@ import SwiftUI
 struct ChatBubble: View {
     let text: String
     let isUser: Bool
-    var onUndo: (() -> Void)? = nil
+    let onUndo: () -> Void
 
     var body: some View {
         HStack(alignment: .bottom, spacing: 8) {
@@ -40,6 +40,8 @@ struct ChatBubble: View {
     }
 }
 #Preview {
-    ChatBubble(text: "Hello", isUser: false)
-    ChatBubble(text: "Hello, world!", isUser: true)
+    VStack {
+        ChatBubble(text: "Hello", isUser: false, onUndo: {})
+        ChatBubble(text: "Hello, world!", isUser: true, onUndo: {})
+    }
 }

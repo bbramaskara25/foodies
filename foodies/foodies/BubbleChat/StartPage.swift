@@ -1,10 +1,5 @@
 import SwiftUI
-
-struct stall: Hashable, Identifiable {
-    let id = UUID()
-    let name: String
-    let imageName: String
-}
+import Foundation
 
 struct StartPage: View {
     @StateObject private var viewModel = ChatViewModel()
@@ -55,8 +50,12 @@ struct StartPage: View {
         ScrollViewReader { proxy in
             ScrollView {
                 VStack(alignment: .leading, spacing: 15) {
-                    ForEach(viewModel.chatMessages.indices, id: \ .self) { index in
-                        messageView(at: index)
+                    ForEach(Array(viewModel.chatMessages.indices), id: \.self) { index in
+                        messageView(index)
+                    }
+
+                    if !viewModel.recommendedStalls.isEmpty {
+                        recommendationSection
                     }
                 }
                 .padding()
@@ -72,46 +71,52 @@ struct StartPage: View {
         }
     }
 
-    private func messageView(at index: Int) -> some View {
+    private func messageView(_ index: Int) -> some View {
         let message = viewModel.chatMessages[index]
+
         return Group {
             if message.isOption && !message.isAnswered {
                 OptionButtonsView(options: message.options) { choice in
                     viewModel.handleAnswer(choice, at: index)
                 }
             } else if !message.isOption {
-                VStack(alignment: .leading, spacing: 10) {
-                    ChatBubble(text: message.text, isUser: message.isUser, onUndo: {
-                        viewModel.undoAnswer(for: index)
-                    })
-
-                    if message.text == "Berikut adalah rekomendasi dari kami, apakah kamu menyukainya?" {
-                        recommendationSection
-                    }
+                if !message.text.isEmpty {
+                    ChatBubble(
+                        text: message.text,
+                        isUser: message.isUser,
+                        onUndo: {
+                            viewModel.undoAnswer(for: index)
+                        }
+                    )
+                } else {
+                    EmptyView()
                 }
+            } else {
+                EmptyView()
             }
         }
     }
 
     private var recommendationSection: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        let recommended: [Stall] = Array(viewModel.recommendedStalls.prefix(3))
+
+        return VStack(alignment: .leading, spacing: 12) {
             Text("Rekomendasi Stall untukmu")
                 .font(.headline)
                 .padding(.top, 10)
 
-            let recommended = Array(viewModel.recommendedStalls.prefix(3))
-
             LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: 3), spacing: 10) {
-                ForEach(recommended) {stall in
+                ForEach(recommended) { stall in
                     NavigationLink(destination: StallsPage()) {
                         VStack(spacing: 8) {
-                            Image("Kasturi")
+                            Image(stall.name.replacingOccurrences(of: " ", with: "").lowercased())
                                 .resizable()
                                 .scaledToFill()
                                 .frame(height: 80)
                                 .clipped()
                                 .cornerRadius(8)
-                            Text("Kasturi")
+
+                            Text(stall.name)
                                 .font(.system(size: 14, weight: .semibold))
                                 .foregroundColor(.black)
                                 .multilineTextAlignment(.center)
@@ -123,11 +128,22 @@ struct StartPage: View {
                     }
                 }
             }
+
+            HStack {
+                Spacer()
+                NavigationLink(destination: StallsPage()) {
+                    Text("Lihat Semua")
+                        .font(.system(size: 14, weight: .bold))
+                        .foregroundColor(.blue)
+                        .padding(.top, 8)
+                }
+                Spacer()
+            }
         }
     }
 }
 
-struct CStartPage_Previews: PreviewProvider {
+struct StartPage_Previews: PreviewProvider {
     static var previews: some View {
         StartPage()
     }
