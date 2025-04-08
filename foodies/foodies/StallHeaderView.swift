@@ -1,26 +1,23 @@
 //
-//  stallsCard.swift
+//  StallHeaderView.swift
 //  foodies
 //
-//  Created by Eliza Vornia on 25/03/25.
+//  Created by Eliza Vornia on 08/04/25.
 //
 
-import Foundation
 import SwiftUI
 
-
-struct StallsCard: View {
+struct StallHeaderView: View {
     var stall: Stall
-    
+
     var body: some View {
-        HStack{
+        HStack {
             Image(stall.images[0])
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 100, height: 100)
-                .cornerRadius(10)
-                .padding(10)
-            
+                .cornerRadius(12)
+                .padding(8)
             Spacer()
             
             VStack(alignment: .leading){

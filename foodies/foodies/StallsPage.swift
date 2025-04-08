@@ -10,8 +10,8 @@ import SwiftData
 struct StallsPage: View {
     @State private var searchText: String = ""
     @State private var isShowFilter: Bool = false
-    @State var selectedFilters: [String: Set<String>] = [:] // ✅ Final filters
-    @State private var tempFilters: [String: Set<String>] = [:] // ✅ Temp filters for modal
+    @State var selectedFilters: [String: Set<String>] = [:]
+    @State private var tempFilters: [String: Set<String>] = [:]
 
     var stalls: [Stall] = Stall.all
 
@@ -21,23 +21,21 @@ struct StallsPage: View {
                 stall.name.lowercased().contains(searchText.lowercased()) ||
                 stall.location.lowercased().contains(searchText.lowercased())
 
-            let matchesLocation = selectedFilters["Location"].map { filters in
-                filters.contains(stall.location)
-            } ?? true
+            let matchesLocation = selectedFilters["Location"].map { $0.contains(stall.location) } ?? true
 
             let matchesPrice = selectedFilters["Price Range"].map { filters in
                 filters.contains(where: { filter in
                     switch filter {
-                        case "<10k": return stall.lowestPrice < 10
-                        case "10-20k": return stall.lowestPrice >= 10 && stall.highestPrice <= 20
-                        case ">20k": return stall.highestPrice > 20
-                        default: return false
+                    case "<10k": return stall.lowestPrice < 10
+                    case "10-20k": return stall.lowestPrice >= 10 && stall.highestPrice <= 20
+                    case ">20k": return stall.highestPrice > 20
+                    default: return false
                     }
                 })
             } ?? true
 
-            let matchesCategory = selectedFilters["Category"].map { filters in
-                filters.contains(where: { stall.category.contains($0) })
+            let matchesCategory = selectedFilters["Category"].map {
+                $0.contains(where: { stall.category.contains($0) })
             } ?? true
 
             let matchesRating = selectedFilters["Rating"].map { filters in
@@ -66,26 +64,62 @@ struct StallsPage: View {
 
     var body: some View {
         NavigationStack {
-            List(filteredStalls, id: \.id) { stall in
-                NavigationLink(destination: MenuPage(stall: stall)
-                    .modelContainer(for: OrderItem.self)) {
-                    StallsCard(stall: stall)
-                }
-            }
-            .navigationTitle("Stalls")
-            .searchable(text: $searchText, prompt: "Search stalls...")
-            .toolbar {
-                Button {
-                    tempFilters = selectedFilters // Pre-fill temp filters with current
-                    isShowFilter = true
-                } label: {
-                    Image(systemName: "line.3.horizontal.decrease.circle.fill")
-                        .foregroundColor(.orange)
+            ZStack {
+                // Tidak ada background color → otomatis mengikuti Light/Dark Mode
+
+                VStack(spacing: 0) {
+                    HStack {
+                        Image("Stalls")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 80, height: 10)
+
+                        Spacer()
+                        Button {
+                            tempFilters = selectedFilters
+                            isShowFilter = true
+                        } label: {
+                            Image(systemName: "line.3.horizontal.decrease.circle.fill")
+                                .resizable()
+                                .frame(width: 20, height: 20)
+                                .foregroundColor(.orange)
+                        }
+                    }
+                    .padding()
+
+                    // Search bar
+                    HStack {
+                        Image(systemName: "magnifyingglass")
+                            .foregroundColor(.orange)
+                        TextField("Search stalls...", text: $searchText)
+                            .placeholder(when: searchText.isEmpty) {
+                                Text("Search stalls...")
+                                    .foregroundColor(.orange)
+                            }
+                            .foregroundColor(.primary)
+                            .autocapitalization(.none)
+                            .disableAutocorrection(true)
+                    }
+                    .padding(10)
+                    .background(Color.orange.opacity(0.2))
+                    .cornerRadius(10)
+                    .padding(.horizontal)
+
+                    // List of stalls
+                    List(filteredStalls, id: \.id) { stall in
+                        NavigationLink(destination: MenuPage(stall: stall)
+                            .modelContainer(for: OrderItem.self)) {
+                            StallsCard(stall: stall)
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                        .listRowSeparator(.hidden)
+                    }
+                    .listStyle(.plain)
                 }
             }
             .sheet(isPresented: $isShowFilter) {
                 FilterView(selectedFilters: $tempFilters) {
-                    selectedFilters = tempFilters  // Apply filters on confirm
+                    selectedFilters = tempFilters
                 }
             }
         }
