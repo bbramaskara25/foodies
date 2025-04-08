@@ -78,21 +78,22 @@ struct MenuPage: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .bold()
                 Text("Price")
-                    .frame(width: 80, alignment: .leading)
+                    .frame(width: 100, alignment: .leading)
                     .bold()
                 Text("Quantity")
-                    .frame(width: 120, alignment: .trailing)
+                    .frame(width: 90, alignment: .center)
                     .bold()
             }
             .padding(.horizontal)
+            Divider()
 
             ForEach(stall.menuList, id: \.name) { menu in
                 VStack(spacing: 4) {
                     HStack {
                         Text(menu.name)
                             .frame(maxWidth: 150, alignment: .leading)
-                        Text("Rp \(menu.price.formatted(.number.grouping(.automatic))),-")
-                            .frame(width: 100, alignment: .leading)
+                        Text("Rp \(menu.price.formatted(.number.grouping(.automatic)))")
+                            .frame(width: 100, alignment: .center)
 
                         CustomStepper(value: bindingForMenu(menu.name, price: Int(menu.price)))
                             .frame(width: 120, alignment: .trailing)

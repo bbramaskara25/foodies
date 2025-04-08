@@ -31,7 +31,7 @@ struct FilterView: View {
                 )
                 FilterButton(
                     segmentTitle: "Category",
-                    itemTitle: ["Rice", "Noodles", "Snacks", "Vegetables"],
+                    itemTitle: ["Nasi", "Mie", "Cemilan", "Sayuran", "Berkuah", "Minuman"],
                     selectedFilters: $selectedFilters
                 )
                 FilterButton(

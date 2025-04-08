@@ -24,12 +24,11 @@ struct OrderConfirmationModal: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             // HEADER
-            VStack(alignment: .leading, spacing: 0) {
-                Text("🧾 Order Confirmation")
-                    .font(.title)
-                    .bold()
-            }
-            .padding(.top, -70) // dikurangi agar tidak terlalu mepet atas
+            Text("🧾 Order Confirmation")
+                .font(.title)
+                .bold()
+                .padding(.top, 25) // atur jarak atas
+
             // NOTES
             VStack(alignment: .leading, spacing: 8) {
                 Text("📝 Notes")
@@ -55,25 +54,25 @@ struct OrderConfirmationModal: View {
                                     .frame(width: 100, alignment: .trailing)
                             }
                             .padding(.vertical, 4)
-
                             Divider()
                         }
                     }
-                    .padding()
+                    .padding(.horizontal) // hindari terlalu banyak padding
                 }
-                .frame(maxHeight: 300)
+                .frame(maxWidth: .infinity)
                 .background(Color(.systemGray6).opacity(0.5))
                 .cornerRadius(12)
             }
 
+            Spacer() // untuk mendorong total & tombol ke bawah
+
             // TOTAL ITEMS + ESTIMASI
             VStack(alignment: .leading, spacing: 4) {
                 Text("🍽️ Total Items: \(totalItems)")
-                    .font(.headline) // sama dengan total price
+                    .font(.headline)
                 Text("💰 Estimated Total: Rp \(estimatedTotal.formatted(.number.grouping(.automatic))),-")
                     .font(.headline)
             }
-            .padding(.top, 5)
 
             // PLACE ORDER BUTTON
             Button(action: {
@@ -90,7 +89,6 @@ struct OrderConfirmationModal: View {
                 .background(Color.orange)
                 .cornerRadius(12)
             }
-
         }
         .padding()
         .alert("Are you sure you want to place this order?", isPresented: $showPlaceOrderAlert) {
@@ -100,8 +98,8 @@ struct OrderConfirmationModal: View {
                 openWhatsApp = true
             }
         }
-        .onChange(of: openWhatsApp) { newValue in
-            if newValue {
+        .onChange(of: openWhatsApp) {
+            if openWhatsApp {
                 openWhatsAppURL()
             }
         }
@@ -133,9 +131,7 @@ struct OrderConfirmationModal: View {
     }
 }
 
-
-
-
+// Preview
 #Preview {
     @State var previewNotes: String = "No peanuts, please."
 
@@ -146,10 +142,9 @@ struct OrderConfirmationModal: View {
             OrderItem(menuName: "Mie Ayam", price: 20000, quantity: 1)
         ],
         whatsAppNumber: "6281234567890",
-        estimatedTotal: 70000, // <-- example total
+        estimatedTotal: 70000,
         onPlaceOrder: {
             print("✅ Order placed in preview")
         }
     )
 }
-

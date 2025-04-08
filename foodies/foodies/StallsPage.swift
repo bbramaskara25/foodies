@@ -110,11 +110,17 @@ struct StallsPage: View {
                         NavigationLink(destination: MenuPage(stall: stall)
                             .modelContainer(for: OrderItem.self)) {
                             StallsCard(stall: stall)
+                            .padding(.horizontal)
+                            .padding(.vertical, 4)
+                            .background(Color(.systemBackground))
+                            .cornerRadius(10)
+                            .shadow(color: Color.black.opacity(0.2), radius: 2, x: 0, y: 0)
                         }
                         .buttonStyle(PlainButtonStyle())
                         .listRowSeparator(.hidden)
                     }
                     .listStyle(.plain)
+                    
                 }
             }
             .sheet(isPresented: $isShowFilter) {
