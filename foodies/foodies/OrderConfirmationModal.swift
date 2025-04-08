@@ -7,6 +7,7 @@
 import SwiftUI
 
 struct OrderConfirmationModal: View {
+    @ObservedObject var stall: Stall
     @Binding var notes: String
     var orderItems: [OrderItem]
     var whatsAppNumber: String
@@ -94,6 +95,7 @@ struct OrderConfirmationModal: View {
         .alert("Are you sure you want to place this order?", isPresented: $showPlaceOrderAlert) {
             Button("Cancel", role: .cancel) {}
             Button("Yes") {
+                stall.wasOrdered = true
                 onPlaceOrder()
                 openWhatsApp = true
             }
@@ -132,19 +134,47 @@ struct OrderConfirmationModal: View {
 }
 
 // Preview
-#Preview {
-    @State var previewNotes: String = "No peanuts, please."
+struct OrderConfirmationModal_Previews: PreviewProvider {
+    static var previews: some View {
+        PreviewWrapper()
+    }
 
-    return OrderConfirmationModal(
-        notes: $previewNotes,
-        orderItems: [
-            OrderItem(menuName: "Nasi Goreng", price: 25000, quantity: 2),
-            OrderItem(menuName: "Mie Ayam", price: 20000, quantity: 1)
-        ],
-        whatsAppNumber: "6281234567890",
-        estimatedTotal: 70000,
-        onPlaceOrder: {
-            print("✅ Order placed in preview")
+    struct PreviewWrapper: View {
+        @State var notes: String = "Tanpa cabe"
+
+        var body: some View {
+            let previewStall = Stall(
+                name: "Mie Ayam Bang Joko",
+                images: ["kasturi", "kasturi"],
+                rating: 4.6,
+                location: "GOP 6",
+                category: ["Mie", "Halal"],
+                lowestPrice: 10000,
+                highestPrice: 25000,
+                menuList: [
+                    Menu(name: "Mie Ayam", price: 15000),
+                    Menu(name: "Bakso", price: 12000)
+                ],
+                whatsAppNumber: "6281234567890"
+            )
+
+            let previewOrderItems = [
+                OrderItem(menuName: "Mie Ayam", price: 15000, quantity: 2),
+                OrderItem(menuName: "Bakso", price: 12000, quantity: 1)
+            ]
+
+            return OrderConfirmationModal(
+                stall: previewStall,
+                notes: $notes,
+                orderItems: previewOrderItems,
+                whatsAppNumber: previewStall.whatsAppNumber,
+                estimatedTotal: 42000,
+                onPlaceOrder: {
+                    print("🟢 Order placed in preview")
+                }
+            )
         }
-    )
+    }
 }
+
+

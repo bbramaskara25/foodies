@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct Stall: Codable, Identifiable{
-    var id = UUID()
+class Stall: ObservableObject, Identifiable {
+    let id = UUID()
     var name: String
     var images: [String]
     var rating: Double
@@ -16,10 +16,24 @@ struct Stall: Codable, Identifiable{
     var category: [String]
     var lowestPrice: Int
     var highestPrice: Int
-    var wasOrdered: Bool = false
-    var menuList: [Menu] = [] //menyimpan daftar menu spesifik setiap stall
+    @Published var wasOrdered: Bool
+    var menuList: [Menu]
     var whatsAppNumber: String
+
+    init(name: String, images: [String], rating: Double, location: String, category: [String], lowestPrice: Int, highestPrice: Int, menuList: [Menu], whatsAppNumber: String) {
+        self.name = name
+        self.images = images
+        self.rating = rating
+        self.location = location
+        self.category = category
+        self.lowestPrice = lowestPrice
+        self.highestPrice = highestPrice
+        self.wasOrdered = false
+        self.menuList = menuList
+        self.whatsAppNumber = whatsAppNumber
+    }
 }
+
 
 
 extension Stall {
@@ -83,7 +97,6 @@ extension Stall {
                 Menu( name: "Jus Tomat", price: 10000),
                 Menu( name: "Jus Terong Belanda", price: 10000),
                 Menu( name: "Jus wortel", price: 10000),
-                Menu( name: "Jus Buah Naga", price: 10000),
                 Menu( name: "Indokafe Cofeemix", price: 4000),
                 Menu( name: "Luwak", price: 4000),
                 Menu( name: "Kapal Api", price: 4000),
@@ -97,7 +110,6 @@ extension Stall {
                 Menu( name: "Pop Mie Seduh", price: 7000),
                 Menu( name: "Indomeie Goreng/Kuah", price: 7000),
                 Menu( name: "Indomie Telor", price: 10000),
-                Menu( name: "Jus Buah Naga", price: 10000),
                 Menu( name: "Ades/Pristine", price: 4000),
                 Menu( name: "Ades 1,5 L", price: 6000),
                 Menu( name: "Sprite/Fanta/Cola 250 ml", price: 4000),

@@ -26,8 +26,7 @@ struct MenuPage: View {
     @State private var orderItemsState: [OrderItem] = []
     @State private var notes: String = ""
     @State private var showConfirmationModal = false
-
-    var stall: Stall
+    @ObservedObject var stall: Stall
 
     var body: some View {
         VStack(spacing: 0) {
@@ -57,6 +56,7 @@ struct MenuPage: View {
         }
         .sheet(isPresented: $showConfirmationModal) {
             OrderConfirmationModal(
+                stall: stall,
                 notes: $notes,
                 orderItems: orderItemsState.filter { $0.quantity > 0 },
                 whatsAppNumber: stall.whatsAppNumber,
