@@ -5,18 +5,20 @@ struct StartPage: View {
     @StateObject private var viewModel = ChatViewModel()
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 backgroundImage
 
-                VStack {
-                    if !viewModel.hasStarted {
-                        introView
-                    } else {
-                        chatView
+                VStack(spacing: 0) {
+                    VStack {
+                        if !viewModel.hasStarted {
+                            introView
+                        } else {
+                            chatView
+                        }
                     }
+                    .padding(.top, 10)
                 }
-                .padding(.top, 10)
             }
         }
     }
@@ -47,30 +49,84 @@ struct StartPage: View {
     }
 
     private var chatView: some View {
-        ScrollViewReader { proxy in
-            ScrollView {
-                VStack(alignment: .leading, spacing: 15) {
-                    ForEach(Array(viewModel.chatMessages.indices), id: \.self) { index in
-                        messageView(index)
-                    }
+        VStack(spacing: 0) {
+            // Header
+            Spacer()
+            Spacer()
+            headerView
 
-                    if !viewModel.recommendedStalls.isEmpty {
-                        recommendationSection
+            ScrollViewReader { proxy in
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 15) {
+                        ForEach(Array(viewModel.chatMessages.indices), id: \.self) { index in
+                            messageView(index)
+                        }
+
+                        if viewModel.showRecommendations && !viewModel.recommendedStalls.isEmpty {
+                            recommendationSection
+                        }
+
+                        if viewModel.showStallNavigationButton {
+                            HStack {
+                                Spacer()
+                                NavigationLink(destination: StallsPage()) {
+                                    Text("Lihat Semua Stall")
+                                        .font(.headline)
+                                        .padding()
+                                        .frame(maxWidth: .infinity)
+                                        .background(Color.orange)
+                                        .foregroundColor(.white)
+                                        .cornerRadius(12)
+                                }
+                                Spacer()
+                            }
+                            .padding(.top, 10)
+                        }
+                    }
+                    .padding(.horizontal)
+                    .padding(.bottom, 16) // bottom spacing for scroll
+                    .onChange(of: viewModel.chatMessages.count) { _ in
+                        withAnimation {
+                            proxy.scrollTo(viewModel.chatMessages.count - 1, anchor: .bottom)
+                        }
                     }
                 }
-                .padding()
-                .onChange(of: viewModel.chatMessages.count) { _ in
-                    withAnimation {
-                        proxy.scrollTo(viewModel.chatMessages.count - 1, anchor: .bottom)
-                    }
-                }
-            }
-            .safeAreaInset(edge: .top) {
-                Color.clear.frame(height: 40)
             }
         }
     }
 
+    @Environment(\.dismiss) private var dismiss
+
+    private var headerView: some View {
+        HStack {
+            Button(action: {
+                viewModel.hasStarted = false
+            }) {
+                Image(systemName: "chevron.left")
+                    .foregroundColor(.orange)
+                    .font(.title2)
+            }
+
+            ZStack {
+                Text("Recommendation Bot")
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundColor(.black)
+                    .offset(x: 1, y: 1)
+                Text("Recommendation Bot")
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundColor(.orange)
+            }
+
+            Spacer()
+
+            Image(systemName: "chevron.left")
+                .opacity(0)
+        }
+        .padding(.horizontal)
+        .padding(.vertical, 8) // smaller vertical padding
+        .background(Color.white.opacity(0.5))
+    }
+    
     private func messageView(_ index: Int) -> some View {
         let message = viewModel.chatMessages[index]
 
@@ -98,7 +154,7 @@ struct StartPage: View {
     }
 
     private var recommendationSection: some View {
-        let recommended: [Stall] = Array(viewModel.recommendedStalls.prefix(3))
+        let recommended = Array(viewModel.recommendedStalls.prefix(3))
 
         return VStack(alignment: .leading, spacing: 12) {
             Text("Rekomendasi Stall untukmu")
@@ -107,24 +163,26 @@ struct StartPage: View {
 
             LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: 3), spacing: 10) {
                 ForEach(recommended) { stall in
-                    NavigationLink(destination: StallsPage()) {
-                        VStack(spacing: 8) {
-                            Image(stall.name.replacingOccurrences(of: " ", with: "").lowercased())
-                                .resizable()
-                                .scaledToFill()
-                                .frame(height: 80)
-                                .clipped()
-                                .cornerRadius(8)
+                    if let fullStall = Stall.all.first(where: { $0.name == stall.name }) {
+                        NavigationLink(destination: MenuPage(stall: fullStall)) {
+                            VStack(spacing: 8) {
+                                Image(fullStall.images.first ?? "placeholder")
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(height: 80)
+                                    .clipped()
+                                    .cornerRadius(8)
 
-                            Text(stall.name)
-                                .font(.system(size: 14, weight: .semibold))
-                                .foregroundColor(.black)
-                                .multilineTextAlignment(.center)
+                                Text(fullStall.name)
+                                    .font(.system(size: 14, weight: .semibold))
+                                    .foregroundColor(.black)
+                                    .multilineTextAlignment(.center)
+                            }
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.white.opacity(0.8))
+                            .cornerRadius(12)
                         }
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.yellow.opacity(0.8))
-                        .cornerRadius(12)
                     }
                 }
             }
@@ -132,10 +190,19 @@ struct StartPage: View {
             HStack {
                 Spacer()
                 NavigationLink(destination: StallsPage()) {
-                    Text("Lihat Semua")
-                        .font(.system(size: 14, weight: .bold))
-                        .foregroundColor(.blue)
-                        .padding(.top, 8)
+                    HStack {
+                        Spacer()
+                        NavigationLink(destination: StallsPage()) {
+                            Text("Lihat Semua Stall")
+                                .font(.body.bold())
+                                .padding(.vertical, 10)
+                                .frame(maxWidth: .infinity)
+                                .background(Color.orange)
+                                .foregroundColor(.white)
+                                .cornerRadius(12)
+                        }
+                        Spacer()
+                    }
                 }
                 Spacer()
             }
