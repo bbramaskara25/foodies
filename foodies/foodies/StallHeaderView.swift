@@ -17,7 +17,7 @@ struct StallHeaderView: View {
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 100, height: 100)
                 .cornerRadius(12)
-                .padding(8)
+                .padding(.leading)
             Spacer()
             
             VStack(alignment: .leading){

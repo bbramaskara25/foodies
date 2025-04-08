@@ -12,7 +12,7 @@ struct TotalView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Current Total: Rp \(total.formatted(.number.grouping(.automatic))),-")
+            Text("Current Total (Estimated): Rp \(total.formatted(.number.grouping(.automatic))),-")
                 .font(.headline)
                
 
