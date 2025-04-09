@@ -11,17 +11,22 @@ import SwiftData
 
 @Model
 class UserOrder {
-    var id: UUID
-    var menuItems: [String] // Or you can create a MenuItem model
+    var menuItems: [String]
     var notes: String
     var total: Int
-    var date: Date
+    var timestamp: Date
 
-    init(menuItems: [String], notes: String, total: Int) {
-        self.id = UUID()
+    init(menuItems: [String], notes: String, total: Int, timestamp: Date) {
         self.menuItems = menuItems
         self.notes = notes
         self.total = total
-        self.date = Date()
+        self.timestamp = timestamp
     }
 }
+
+struct OrderHistory: Identifiable, Hashable {
+    var id = UUID()
+    let stallName: String
+    let items: [String]
+}
+

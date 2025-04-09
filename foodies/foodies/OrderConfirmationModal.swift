@@ -5,6 +5,7 @@
 //  Created by Eliza Vornia on 06/04/25.
 //
 import SwiftUI
+import SwiftData
 
 struct OrderConfirmationModal: View {
     @Binding var notes: String
@@ -96,8 +97,15 @@ struct OrderConfirmationModal: View {
             Button("Cancel", role: .cancel) {}
             Button("Yes") {
                 let menuNames = orderItems.map { "\($0.menuName) x\($0.quantity)" }
-                let order = UserOrder(menuItems: menuNames, notes: notes, total: estimatedTotal)
+                let order = UserOrder(menuItems: menuNames, notes: notes, total: estimatedTotal, timestamp: Date())
                 modelContext.insert(order)
+
+                do {
+                    try modelContext.save()
+                    print("Order saved to SwiftData")
+                } catch {
+                    print("Failed to save order: \(error.localizedDescription)")
+                }
 
                 onPlaceOrder()
                 openWhatsApp = true
