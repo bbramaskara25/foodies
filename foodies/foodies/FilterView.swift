@@ -20,17 +20,17 @@ struct FilterView: View {
 
             Group {
                 FilterButton(
-                    segmentTitle: "Location",
+                    segmentTitle: "Lokasi",
                     itemTitle: ["GOP 1", "GOP 6", "GOP 9"],
                     selectedFilters: $selectedFilters
                 )
                 FilterButton(
-                    segmentTitle: "Price Range",
+                    segmentTitle: "Range Harga",
                     itemTitle: ["<Rp 10k", "Rp 10-20k", ">Rp 20k"],
                     selectedFilters: $selectedFilters
                 )
                 FilterButton(
-                    segmentTitle: "Category",
+                    segmentTitle: "Kategori",
                     itemTitle: ["Nasi", "Mie", "Cemilan", "Sayuran", "Berkuah", "Minuman"],
                     selectedFilters: $selectedFilters
                 )
@@ -40,9 +40,10 @@ struct FilterView: View {
                     selectedFilters: $selectedFilters
                 )
                 FilterButton(
-                    segmentTitle: "Tried Before",
+                    segmentTitle: "Pernah Dipesan",
                     itemTitle: ["Yes", "No"],
-                    selectedFilters: $selectedFilters
+                    selectedFilters: $selectedFilters,
+                    isSingleSelection: true
                 )
             }
             .padding(.top, 12)
@@ -80,6 +81,7 @@ struct FilterButton: View {
     var segmentTitle: String
     var itemTitle: [String]
     @Binding var selectedFilters: [String: Set<String>]
+    var isSingleSelection: Bool = false
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -113,15 +115,23 @@ struct FilterButton: View {
     }
 
     private func toggleSelection(for option: String) {
-        if selectedFilters[segmentTitle]?.contains(option) == true {
-            selectedFilters[segmentTitle]?.remove(option)
-            if selectedFilters[segmentTitle]?.isEmpty == true {
-                selectedFilters.removeValue(forKey: segmentTitle)
+            if isSingleSelection {
+                if selectedFilters[segmentTitle]?.contains(option) == true {
+                    selectedFilters.removeValue(forKey: segmentTitle)
+                } else {
+                    selectedFilters[segmentTitle] = [option]
+                }
+            } else {
+                if selectedFilters[segmentTitle]?.contains(option) == true {
+                    selectedFilters[segmentTitle]?.remove(option)
+                    if selectedFilters[segmentTitle]?.isEmpty == true {
+                        selectedFilters.removeValue(forKey: segmentTitle)
+                    }
+                } else {
+                    selectedFilters[segmentTitle, default: []].insert(option)
+                }
             }
-        } else {
-            selectedFilters[segmentTitle, default: []].insert(option)
         }
-    }
 }
 
 #Preview {

@@ -187,7 +187,7 @@ extension Stall {
             location: "GOP 9",
             category: ["Nasi", "Sayuran"],
             lowestPrice: 4000,
-            highestPrice: 100000,
+            highestPrice: 10000,
             menuList: [
                 Menu(name: "Ayam Bumbu Bali", price: 7000),
                 Menu(name: "Ikan Sarden", price: 8000),

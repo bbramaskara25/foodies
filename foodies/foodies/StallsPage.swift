@@ -21,26 +21,26 @@ struct StallsPage: View {
                 stall.name.lowercased().contains(searchText.lowercased()) ||
                 stall.location.lowercased().contains(searchText.lowercased())
 
-            let matchesLocation = selectedFilters["Location"].map { $0.contains(stall.location) } ?? true
+            let matchesLocation = selectedFilters["Lokasi"].map { $0.contains(stall.location) } ?? true
 
-            let matchesPrice = selectedFilters["Price Range"].map { filters in
+            let matchesPrice = selectedFilters["Range Harga"].map { filters in
                 filters.contains(where: { filter in
                     switch filter {
-//<<<<<<< HEAD
+
                     case "<10k": return stall.lowestPrice < 10000
                     case "10-20k": return stall.lowestPrice >= 10000 && stall.highestPrice <= 20000
                     case ">20k": return stall.highestPrice > 20000
-//=======
+
                     case "<Rp 10k": return stall.lowestPrice < 10
                     case "Rp 10-20k": return stall.lowestPrice >= 10 && stall.highestPrice <= 20
                     case ">Rp 20k": return stall.highestPrice > 20
-//>>>>>>> main
+
                     default: return false
                     }
                 })
             } ?? true
 
-            let matchesCategory = selectedFilters["Category"].map {
+            let matchesCategory = selectedFilters["Kategori"].map {
                 $0.contains(where: { stall.category.contains($0) })
             } ?? true
 
@@ -53,7 +53,7 @@ struct StallsPage: View {
                 })
             } ?? true
 
-            let matchesTriedBefore = selectedFilters["Tried Before"].map { filters in
+            let matchesTriedBefore = selectedFilters["Pernah Dipesan"].map { filters in
                 filters.contains(where: { filter in
                     if filter == "Yes" {
                         return stall.wasOrdered
