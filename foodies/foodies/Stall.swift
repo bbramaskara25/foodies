@@ -162,37 +162,46 @@ extension Stall {
             ],
             whatsAppNumber: "6282116508399"
         ),
-        // belom semua kecuali nomor
-        Stall(
-            name: "Kantin Kasturi",
-            images: ["Kasturi", "Kasturi", "Kasturi"],
-            rating: 5.0,
-            location: "GOP 9",
-            category: ["Nasi", "Sayuran", "Mie", "Cemilan"],
-            lowestPrice: 10000,
-            highestPrice: 15000,
-            menuList: [
-                Menu(name: "Nasi Goreng", price: 10),
-                Menu(name: "Nasi Goreng", price: 12),
-                Menu(name: "Nasi Goreng", price: 14),
-                Menu( name: "Nasi Goreng", price: 15)
-            ],
-            whatsAppNumber: "6281380770081"
-        ),
-        // belom semua kecuali no telp
+//        // belom semua kecuali nomor
+//        Stall(
+//            name: "Kantin Kasturi",
+//            images: ["Kasturi", "Kasturi", "Kasturi"],
+//            rating: 5.0,
+//            location: "GOP 9",
+//            category: ["Nasi", "Sayuran", "Mie", "Cemilan"],
+//            lowestPrice: 10000,
+//            highestPrice: 15000,
+//            menuList: [
+//                Menu(name: "Nasi Goreng", price: 10),
+//                Menu(name: "Nasi Goreng", price: 12),
+//                Menu(name: "Nasi Goreng", price: 14),
+//                Menu( name: "Nasi Goreng", price: 15)
+//            ],
+//            whatsAppNumber: "6281380770081"
+//        ),
+        // sisa foto
         Stall(
             name: "Kedai Laris Manis",
             images: ["Kasturi", "Kasturi", "Kasturi"],
-            rating: 4.6,
+            rating: 4.8,
             location: "GOP 9",
-            category: ["Nasi", "Cemilan"],
-            lowestPrice: 16000,
-            highestPrice: 20000,
+            category: ["Nasi", "Sayuran"],
+            lowestPrice: 4000,
+            highestPrice: 100000,
             menuList: [
-                Menu(name: "Chicken Salted Egg Rice + Egg", price: 20000),
-                Menu(name: "Rice Bowl Chicken Yakiniku + Egg", price: 16000),
-                Menu(name: "Rice Bowl Cumi Pete", price: 16000),
-                Menu( name: "Rice Bowl Chicken Pop Corn", price: 16000)
+                Menu(name: "Ayam Bumbu Bali", price: 7000),
+                Menu(name: "Ikan Sarden", price: 8000),
+                Menu(name: "Sayur Tumis", price: 4000),
+                Menu(name: "Tempe Orek", price: 4000),
+                Menu(name: "Ayam Popcorn", price: 7000),
+                Menu(name: "Telur Dadar", price: 5000),
+                Menu(name: "Telur Ceplok", price: 5000),
+                Menu(name: "Telur Balado", price: 5000),
+                Menu(name: "Ayam Kecombrang", price: 7000),
+                Menu(name: "Ayam Semur Kentang", price: 7000),
+                Menu(name: "Ayam Asam Manis", price: 7000),
+                Menu(name: "Ayam Salted Egg", price: 10000),
+                Menu(name: "Nasi Putih", price: 5000),
             ],
             whatsAppNumber: "‪628126001285‬"
         ),
@@ -220,23 +229,23 @@ extension Stall {
             ],
             whatsAppNumber: "6282241599564"
         ),
-        // belom semua kecuali nomor
-        Stall(
-            name: "Mama Djempol",
-            images: ["Kasturi", "Kasturi", "Kasturi"],
-            rating: 4.7,
-            location: "GOP 9",
-            category: ["Nasi", "Sayuran", "Mie", "Cemilan"],
-            lowestPrice: 10000,
-            highestPrice: 15000,
-            menuList: [
-                Menu(name: "Nasi Goreng", price: 10),
-                Menu(name: "Nasi Goreng", price: 12),
-                Menu(name: "Nasi Goreng", price: 14),
-                Menu( name: "Nasi Goreng", price: 15)
-            ],
-            whatsAppNumber: "6282258937032"
-        ),
+//        // belom semua kecuali nomor
+//        Stall(
+//            name: "Mama Djempol",
+//            images: ["Kasturi", "Kasturi", "Kasturi"],
+//            rating: 4.7,
+//            location: "GOP 9",
+//            category: ["Nasi", "Sayuran", "Mie", "Cemilan"],
+//            lowestPrice: 10000,
+//            highestPrice: 15000,
+//            menuList: [
+//                Menu(name: "Nasi Goreng", price: 10),
+//                Menu(name: "Nasi Goreng", price: 12),
+//                Menu(name: "Nasi Goreng", price: 14),
+//                Menu( name: "Nasi Goreng", price: 15)
+//            ],
+//            whatsAppNumber: "6282258937032"
+//        ),
         // sisa foto
         Stall(
             name: "Ikan & Bakso Bakwan Malang Josss",
