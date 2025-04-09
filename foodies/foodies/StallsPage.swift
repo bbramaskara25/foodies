@@ -23,18 +23,13 @@ struct StallsPage: View {
 
             let matchesLocation = selectedFilters["Lokasi"].map { $0.contains(stall.location) } ?? true
 
-            let matchesPrice = selectedFilters["Range Harga"].map { filters in
+            let matchesPrice = selectedFilters["Harga"].map { filters in
                 filters.contains(where: { filter in
                     switch filter {
 
-                    case "<10k": return stall.lowestPrice < 10000
-                    case "10-20k": return stall.lowestPrice >= 10000 && stall.highestPrice <= 20000
-                    case ">20k": return stall.highestPrice > 20000
-
-                    case "<Rp 10k": return stall.lowestPrice < 10
-                    case "Rp 10-20k": return stall.lowestPrice >= 10 && stall.highestPrice <= 20
-                    case ">Rp 20k": return stall.highestPrice > 20
-
+                    case "<Rp15.000": return stall.lowestPrice < 15000
+                    case "<Rp25.000": return stall.lowestPrice < 25000
+                    case ">=Rp25.000": return stall.highestPrice >= 25000
                     default: return false
                     }
                 })

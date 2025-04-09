@@ -26,8 +26,8 @@ struct FilterView: View {
                         selectedFilters: $selectedFilters
                     )
                     FilterButton(
-                        segmentTitle: "Range Harga",
-                        itemTitle: ["<Rp 10k", "Rp 10-20k", ">Rp 20k"],
+                        segmentTitle: "Harga",
+                        itemTitle: ["<Rp15.000", "<Rp25.000", ">=Rp25.000"],
                         selectedFilters: $selectedFilters
                     )
                     FilterButton(
@@ -76,6 +76,12 @@ struct FilterView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding()
             .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button("Reset") {
+                        selectedFilters = [:]
+                    }
+                    .foregroundColor(.red)
+                }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Dismiss") {
                         dismiss()

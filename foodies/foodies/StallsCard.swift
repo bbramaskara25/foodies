@@ -45,7 +45,7 @@ struct StallsCard: View {
                         .frame(width: 14, height: 14)
                         .foregroundColor(.orange)
                     
-                    Text("\(formattedPrice(stall.lowestPrice)) - \(formattedPrice(stall.highestPrice))")
+                    Text("Rp\(stall.lowestPrice) - \(stall.highestPrice)")
                         .font(.subheadline)
                 }
                 
@@ -59,19 +59,6 @@ struct StallsCard: View {
                         .font(.subheadline)
                 }
             }
-        }
-    }
-    
-    func formattedPrice(_ value: Int) -> String {
-        if value >= 1000 {
-            let priceInK = Double(value) / 1000
-            if priceInK.truncatingRemainder(dividingBy: 1) == 0 {
-                return "\(Int(priceInK))K"
-            } else {
-                return String(format: "%.1fK", priceInK)
-            }
-        } else {
-            return "\(value)"
         }
     }
 }
