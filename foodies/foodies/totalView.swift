@@ -12,14 +12,14 @@ struct TotalView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Current Total (Estimated): Rp \(total.formatted(.number.grouping(.automatic))),-")
+            Text("Total Estimasi Harga: Rp \(total.formatted(.number.grouping(.automatic))),-")
                 .font(.headline)
                
 
             Button(action: {
                 onSave()
             }) {
-                Text("Save Order")
+                Text("Konfirmasi")
                     .frame(maxWidth: .infinity)
                     .padding()
                     .background(Color.orange)

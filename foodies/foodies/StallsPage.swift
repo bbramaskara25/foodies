@@ -90,9 +90,9 @@ struct StallsPage: View {
                     HStack {
                         Image(systemName: "magnifyingglass")
                             .foregroundColor(.orange)
-                        TextField("Search stalls...", text: $searchText)
+                        TextField("Explore Stalls...", text: $searchText)
                             .placeholder(when: searchText.isEmpty) {
-                                Text("Search stalls...")
+                                Text("Explore Stalls...")
                                     .foregroundColor(.orange)
                             }
                             .foregroundColor(.primary)

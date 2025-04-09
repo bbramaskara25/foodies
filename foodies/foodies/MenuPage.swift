@@ -48,7 +48,6 @@ struct MenuPage: View {
                 VStack(spacing: 16) {
                     StallHeaderView(stall: stall)
 
-                    // Separator dengan shadow
                     Divider()
                         .shadow(color: .black.opacity(0.2), radius: 2, x: 0, y: 2)
 

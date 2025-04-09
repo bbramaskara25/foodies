@@ -40,9 +40,9 @@ struct CustomStepper: View {
                     if let intValue = Int(newValue), range.contains(intValue) {
                         value = intValue
                     } else if newValue.isEmpty {
-                        // Kosongkan tidak langsung ubah nilai
+                        
                     } else {
-                        // Kembalikan ke nilai sebelumnya jika input tidak valid
+                     
                         textValue = String(value)
                     }
                 }

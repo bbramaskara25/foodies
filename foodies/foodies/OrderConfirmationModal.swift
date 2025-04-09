@@ -26,23 +26,23 @@ struct OrderConfirmationModal: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
-            // HEADER
-            Text("Order Confirmation")
+           
+            Text("Konfirmasi Pesanan")
                 .font(.title)
                 .bold()
-                .padding(.top, 25) // atur jarak atas
+                .padding(.top, 25)
 
-            // NOTES
+            
             VStack(alignment: .leading, spacing: 8) {
-                Text("📝 Notes")
+                Text("📝 Catatan")
                     .font(.headline)
-                TextField("e.g. No peanuts, spicy level 2", text: $notes)
+                TextField("tambahkan catatan...", text: $notes)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
             }
 
-            // ORDER SUMMARY
+         
             VStack(alignment: .leading, spacing: 8) {
-                Text("📋 Order Summary")
+                Text("📋 Ringkasan Pesanan")
                     .font(.headline)
 
                 ScrollView {
@@ -60,30 +60,30 @@ struct OrderConfirmationModal: View {
                             Divider()
                         }
                     }
-                    .padding(.horizontal) // hindari terlalu banyak padding
+                    .padding(.horizontal)
                 }
                 .frame(maxWidth: .infinity)
                 .background(Color(.systemGray6).opacity(0.5))
                 .cornerRadius(12)
             }
 
-            Spacer() // untuk mendorong total & tombol ke bawah
+            Spacer()
 
-            // TOTAL ITEMS + ESTIMASI
+            
             VStack(alignment: .leading, spacing: 4) {
-                Text("🍽️ Total Items: \(totalItems)")
+                Text("🍽️ Total Item: \(totalItems)")
                     .font(.headline)
-                Text("💰 Estimated Total: Rp \(estimatedTotal.formatted(.number.grouping(.automatic))),-")
+                Text("💰 Total Estimasi Harga: Rp \(estimatedTotal.formatted(.number.grouping(.automatic))),-")
                     .font(.headline)
             }
 
-            // PLACE ORDER BUTTON
+        
             Button(action: {
                 showPlaceOrderAlert = true
             }) {
                 HStack {
                     Image(systemName: "paperplane.fill")
-                    Text("Place Order via WhatsApp")
+                    Text("Pesan Lewat WhatsApp")
                         .bold()
                 }
                 .foregroundColor(.white)
@@ -94,9 +94,9 @@ struct OrderConfirmationModal: View {
             }
         }
         .padding()
-        .alert("Are you sure you want to place this order?", isPresented: $showPlaceOrderAlert) {
-            Button("Cancel", role: .cancel) {}
-            Button("Yes") {
+        .alert("Lanjutkan Pemesanan?", isPresented: $showPlaceOrderAlert) {
+            Button("Batal", role: .cancel) {}
+            Button("Ya") {
                 stall.wasOrdered = true
                 let menuNames = orderItems.map { "\($0.menuName) x\($0.quantity)" }
                 let order = UserOrder(menuItems: menuNames, notes: notes, total: estimatedTotal)
@@ -138,7 +138,7 @@ struct OrderConfirmationModal: View {
     }
 }
 
-// Preview
+
 struct OrderConfirmationModal_Previews: PreviewProvider {
     static var previews: some View {
         PreviewWrapper()

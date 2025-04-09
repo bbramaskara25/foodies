@@ -53,14 +53,14 @@ struct FilterView: View {
                 Spacer()
 
                 VStack {
-                    Text("Total: \(selectedFilters.reduce(0) { $0 + $1.value.count }) filters applied")
+                    Text("Total: \(selectedFilters.reduce(0) { $0 + $1.value.count }) filter diterapkan")
                         .font(.headline)
 
                     Button(action: {
                         applyFilters()
                         dismiss()
                     }) {
-                        Text("Apply")
+                        Text("Terapkan")
                             .frame(maxWidth: .infinity)
                             .foregroundColor(.white)
                             .padding(.horizontal, 16)
