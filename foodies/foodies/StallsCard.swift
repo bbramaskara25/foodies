@@ -4,16 +4,14 @@
 //
 //  Created by Eliza Vornia on 25/03/25.
 //
-
 import Foundation
 import SwiftUI
-
 
 struct StallsCard: View {
     var stall: Stall
     
     var body: some View {
-        HStack{
+        HStack {
             Image(stall.images[0])
                 .resizable()
                 .aspectRatio(contentMode: .fill)
@@ -23,16 +21,14 @@ struct StallsCard: View {
             
             Spacer()
             
-            VStack(alignment: .leading){
-                HStack{
+            VStack(alignment: .leading, spacing: 6) {
+                HStack {
                     Text(stall.name)
                         .font(.headline)
-                    
                     Spacer()
-                       
                 }
                 
-                HStack{
+                HStack {
                     Image(systemName: "pin.circle.fill")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
@@ -40,33 +36,42 @@ struct StallsCard: View {
                         .foregroundColor(.orange)
                     Text(stall.location)
                         .font(.subheadline)
-                        
                 }
                 
-                    HStack{
-                        Image(systemName: "wallet.bifold.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .foregroundColor(.orange)
-                            .frame(width: 14, height: 14)
-                        
-                        Text("5K-20K")
-                            .font(.subheadline)
-                          
-                        
-                    }
-                HStack{
+                HStack {
+                    Image(systemName: "wallet.bifold.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 14, height: 14)
+                        .foregroundColor(.orange)
+                    
+                    Text("\(formattedPrice(stall.lowestPrice)) - \(formattedPrice(stall.highestPrice))")
+                        .font(.subheadline)
+                }
+                
+                HStack {
                     Image(systemName: "star.fill")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 15, height: 15)
                         .foregroundColor(.orange)
-                    Text(String(stall.rating))
+                    Text(String(format: "%.1f", stall.rating))
                         .font(.subheadline)
-                        
                 }
-                
             }
+        }
+    }
+    
+    func formattedPrice(_ value: Int) -> String {
+        if value >= 1000 {
+            let priceInK = Double(value) / 1000
+            if priceInK.truncatingRemainder(dividingBy: 1) == 0 {
+                return "\(Int(priceInK))K"
+            } else {
+                return String(format: "%.1fK", priceInK)
+            }
+        } else {
+            return "\(value)"
         }
     }
 }

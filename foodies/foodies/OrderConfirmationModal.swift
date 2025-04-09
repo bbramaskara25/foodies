@@ -2,8 +2,9 @@
 //  OrderConfirmationModal.swift
 //  foodies
 //
-//  Created by Eliza Vornia on 06/04/25.
+//  Created by Eliza Vornia on 08/04/25.
 //
+
 import SwiftUI
 
 struct OrderConfirmationModal: View {
@@ -25,7 +26,7 @@ struct OrderConfirmationModal: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             // HEADER
-            Text("🧾 Order Confirmation")
+            Text("Order Confirmation")
                 .font(.title)
                 .bold()
                 .padding(.top, 25) // atur jarak atas

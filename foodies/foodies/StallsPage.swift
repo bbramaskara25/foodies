@@ -65,8 +65,6 @@ struct StallsPage: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                // Tidak ada background color → otomatis mengikuti Light/Dark Mode
-
                 VStack(spacing: 0) {
                     HStack {
                         Image("Stalls")
@@ -107,20 +105,18 @@ struct StallsPage: View {
 
                     // List of stalls
                     List(filteredStalls, id: \.id) { stall in
-                        NavigationLink(destination: MenuPage(stall: stall)
-                            .modelContainer(for: OrderItem.self)) {
+                        NavigationLink(destination: MenuPage(stall: stall)) {
                             StallsCard(stall: stall)
-                            .padding(.horizontal)
-                            .padding(.vertical, 4)
-                            .background(Color(.systemBackground))
-                            .cornerRadius(10)
-                            .shadow(color: Color.black.opacity(0.2), radius: 2, x: 0, y: 0)
+                                .padding(.horizontal)
+                                .padding(.vertical, 4)
+                                .background(Color(.systemBackground))
+                                .cornerRadius(10)
+                                .shadow(color: Color.black.opacity(0.2), radius: 2, x: 0, y: 0)
                         }
                         .buttonStyle(PlainButtonStyle())
                         .listRowSeparator(.hidden)
                     }
                     .listStyle(.plain)
-                    
                 }
             }
             .sheet(isPresented: $isShowFilter) {
@@ -129,7 +125,6 @@ struct StallsPage: View {
                 }
             }
         }
-        .modelContainer(for: OrderItem.self)
     }
 }
 

@@ -26,6 +26,7 @@ struct MenuPage: View {
     @State private var orderItemsState: [OrderItem] = []
     @State private var notes: String = ""
     @State private var showConfirmationModal = false
+    @State private var showQuantityAlert = false
     @ObservedObject var stall: Stall
 
     var body: some View {
@@ -33,6 +34,11 @@ struct MenuPage: View {
             ScrollView {
                 VStack(spacing: 16) {
                     StallHeaderView(stall: stall)
+
+                    // Separator dengan shadow
+                    Divider()
+                        .shadow(color: .black.opacity(0.2), radius: 2, x: 0, y: 2)
+
                     menuListView
                 }
                 .padding(.horizontal)
@@ -43,7 +49,11 @@ struct MenuPage: View {
             TotalView(
                 total: calculateTotal(),
                 onSave: {
-                    showConfirmationModal = true
+                    if orderItemsState.contains(where: { $0.quantity > 0 }) {
+                        showConfirmationModal = true
+                    } else {
+                        showQuantityAlert = true
+                    }
                 }
             )
             .frame(maxWidth: .infinity)
@@ -66,42 +76,34 @@ struct MenuPage: View {
                     showConfirmationModal = false
                 }
             )
-            
+        }
+        .alert("Oops.. pilih menu dulu yuk!", isPresented: $showQuantityAlert) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text("Anda belum memilih menu apapun.")
         }
     }
 
     // Menu List
     private var menuListView: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack {
-                Text("Menu Item")
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .bold()
-                Text("Price")
-                    .frame(width: 100, alignment: .leading)
-                    .bold()
-                Text("Quantity")
-                    .frame(width: 90, alignment: .center)
-                    .bold()
-            }
-            .padding(.horizontal)
-            Divider()
-
-            ForEach(stall.menuList, id: \.name) { menu in
-                VStack(spacing: 4) {
-                    HStack {
+        ForEach(stall.menuList, id: \.name) { menu in
+            VStack(spacing: 4) {
+                HStack(alignment: .top) {
+                    VStack(alignment: .leading, spacing: 2) {
                         Text(menu.name)
-                            .frame(maxWidth: 150, alignment: .leading)
+                            .font(.headline)
                         Text("Rp \(menu.price.formatted(.number.grouping(.automatic)))")
-                            .frame(width: 100, alignment: .center)
-
-                        CustomStepper(value: bindingForMenu(menu.name, price: Int(menu.price)))
-                            .frame(width: 120, alignment: .trailing)
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
                     }
-                    .padding(.horizontal)
 
-                    Divider()
+                    Spacer()
+
+                    CustomStepper(value: bindingForMenu(menu.name, price: Int(menu.price)))
                 }
+                .padding(.horizontal)
+
+                Divider()
             }
         }
     }
@@ -136,15 +138,15 @@ struct MenuPage: View {
 
     private func updateTotal() {
         let total = calculateTotal()
-        print("\u{1F4B0} Updated total: \(total)")
+        print("💰 Updated total: \(total)")
     }
 
     private func saveOrder() {
         do {
             try modelContext.save()
-            print("\u{2705} Order saved successfully")
+            print("✅ Order saved successfully")
         } catch {
-            print("\u{274C} Failed to save order: \(error)")
+            print("❌ Failed to save order: \(error)")
         }
     }
 }

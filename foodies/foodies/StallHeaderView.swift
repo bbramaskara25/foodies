@@ -4,7 +4,6 @@
 //
 //  Created by Eliza Vornia on 08/04/25.
 //
-
 import SwiftUI
 
 struct StallHeaderView: View {
