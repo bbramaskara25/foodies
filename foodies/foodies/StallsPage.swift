@@ -26,9 +26,9 @@ struct StallsPage: View {
             let matchesPrice = selectedFilters["Price Range"].map { filters in
                 filters.contains(where: { filter in
                     switch filter {
-                    case "<Rp 10k": return stall.lowestPrice < 10
-                    case "Rp 10-20k": return stall.lowestPrice >= 10 && stall.highestPrice <= 20
-                    case ">Rp 20k": return stall.highestPrice > 20
+                    case "<10k": return stall.lowestPrice < 10
+                    case "10-20k": return stall.lowestPrice >= 10 && stall.highestPrice <= 20
+                    case ">20k": return stall.highestPrice > 20
                     default: return false
                     }
                 })
@@ -64,6 +64,7 @@ struct StallsPage: View {
 
     var body: some View {
         NavigationStack {
+<<<<<<< Updated upstream
             ZStack {
                 // Tidak ada background color → otomatis mengikuti Light/Dark Mode
 
@@ -110,17 +111,28 @@ struct StallsPage: View {
                         NavigationLink(destination: MenuPage(stall: stall)
                             .modelContainer(for: OrderItem.self)) {
                             StallsCard(stall: stall)
-                            .padding(.horizontal)
-                            .padding(.vertical, 4)
-                            .background(Color(.systemBackground))
-                            .cornerRadius(10)
-                            .shadow(color: Color.black.opacity(0.2), radius: 2, x: 0, y: 0)
                         }
                         .buttonStyle(PlainButtonStyle())
                         .listRowSeparator(.hidden)
                     }
                     .listStyle(.plain)
-                    
+=======
+            List(filteredStalls, id: \.id) { stall in
+                NavigationLink(destination: StallDetailView(stall: stall)
+                    .modelContainer(for: OrderItem.self)) { //menyediakan akses ke swiftData
+                    StallsCard(stall: stall)
+                }
+            }
+            .navigationTitle("Stalls")
+            .searchable(text: $searchText, prompt: "Search stalls...")
+            .toolbar {
+                Button {
+                    tempFilters = [:] // Reset tempFilters when opening filter
+                    isShowFilter = true
+                } label: {
+                    Image(systemName: "line.3.horizontal.decrease.circle.fill")
+                        .foregroundColor(.orange)
+>>>>>>> Stashed changes
                 }
             }
             .sheet(isPresented: $isShowFilter) {
@@ -129,11 +141,19 @@ struct StallsPage: View {
                 }
             }
         }
+<<<<<<< Updated upstream
         .modelContainer(for: OrderItem.self)
+=======
+        .modelContainer(for : OrderItem.self) // pastikan akses ke swiftData
+>>>>>>> Stashed changes
     }
 }
 
 #Preview {
     StallsPage()
+<<<<<<< Updated upstream
         .modelContainer(for: OrderItem.self)
+=======
+        .modelContainer(for: OrderItem.self) // pastikan preview juga memiliki akses ke SwiftData
+>>>>>>> Stashed changes
 }

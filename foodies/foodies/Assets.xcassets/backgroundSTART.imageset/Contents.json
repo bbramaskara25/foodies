@@ -1,7 +1,11 @@
 {
   "images" : [
     {
+<<<<<<<< Updated upstream:foodies/foodies/Assets.xcassets/backgroundSTART.imageset/Contents.json
       "filename" : "backgroundSTART.png",
+========
+      "filename" : "LogoFoody.png",
+>>>>>>>> Stashed changes:foodies/foodies/Assets.xcassets/LogoFoody.imageset/Contents.json
       "idiom" : "universal",
       "scale" : "1x"
     },
