@@ -13,68 +13,79 @@ struct FilterView: View {
     @Environment(\.dismiss) var dismiss
 
     var body: some View {
-        VStack {
-            Text("Filters")
-                .font(.largeTitle)
-                .padding(.top)
-
-            Group {
-                FilterButton(
-                    segmentTitle: "Lokasi",
-                    itemTitle: ["GOP 1", "GOP 6", "GOP 9"],
-                    selectedFilters: $selectedFilters
-                )
-                FilterButton(
-                    segmentTitle: "Range Harga",
-                    itemTitle: ["<Rp 10k", "Rp 10-20k", ">Rp 20k"],
-                    selectedFilters: $selectedFilters
-                )
-                FilterButton(
-                    segmentTitle: "Kategori",
-                    itemTitle: ["Nasi", "Mie", "Cemilan", "Sayuran", "Berkuah", "Minuman"],
-                    selectedFilters: $selectedFilters
-                )
-                FilterButton(
-                    segmentTitle: "Rating",
-                    itemTitle: [">1", ">2", ">3", ">4", "5"],
-                    selectedFilters: $selectedFilters
-                )
-                FilterButton(
-                    segmentTitle: "Pernah Dipesan",
-                    itemTitle: ["Yes", "No"],
-                    selectedFilters: $selectedFilters,
-                    isSingleSelection: true
-                )
-            }
-            .padding(.top, 12)
-            .padding(.horizontal)
-
-            Spacer()
-
+        NavigationStack{
             VStack {
-                Text("Total: \(selectedFilters.reduce(0) { $0 + $1.value.count }) filters applied")
-                    .font(.headline)
+                Text("Filters")
+                    .font(.largeTitle)
+                    .padding(.top, -30)
 
-                Button(action: {
-                    applyFilters()
-                    dismiss()
-                }) {
-                    Text("Apply")
-                        .frame(maxWidth: .infinity)
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 16)
-                        .background(Color.orange)
-                        .cornerRadius(10)
-                        .frame(width: 300, height: 50, alignment: .center)
+                Group {
+                    FilterButton(
+                        segmentTitle: "Lokasi",
+                        itemTitle: ["GOP 1", "GOP 6", "GOP 9"],
+                        selectedFilters: $selectedFilters
+                    )
+                    FilterButton(
+                        segmentTitle: "Range Harga",
+                        itemTitle: ["<Rp 10k", "Rp 10-20k", ">Rp 20k"],
+                        selectedFilters: $selectedFilters
+                    )
+                    FilterButton(
+                        segmentTitle: "Kategori",
+                        itemTitle: ["Nasi", "Mie", "Cemilan", "Sayuran", "Berkuah", "Minuman"],
+                        selectedFilters: $selectedFilters
+                    )
+                    FilterButton(
+                        segmentTitle: "Rating",
+                        itemTitle: [">1", ">2", ">3", ">4", "5"],
+                        selectedFilters: $selectedFilters
+                    )
+                    FilterButton(
+                        segmentTitle: "Pernah Dipesan",
+                        itemTitle: ["Yes", "No"],
+                        selectedFilters: $selectedFilters,
+                        isSingleSelection: true
+                    )
                 }
+                .padding(.top, 12)
                 .padding(.horizontal)
-                .padding(.bottom)
+
+                Spacer()
+
+                VStack {
+                    Text("Total: \(selectedFilters.reduce(0) { $0 + $1.value.count }) filters applied")
+                        .font(.headline)
+
+                    Button(action: {
+                        applyFilters()
+                        dismiss()
+                    }) {
+                        Text("Apply")
+                            .frame(maxWidth: .infinity)
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 16)
+                            .background(Color.orange)
+                            .cornerRadius(10)
+                            .frame(width: 300, height: 50, alignment: .center)
+                    }
+                    .padding(.horizontal)
+                    .padding(.bottom)
+                }
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .padding()
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Dismiss") {
+                        dismiss()
+                    }
+                    .foregroundColor(.orange)
+                }
+            }
+
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .padding()
-    }
+        }
 }
 
 struct FilterButton: View {

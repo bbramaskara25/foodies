@@ -83,7 +83,7 @@ struct StallsPage: View {
                             tempFilters = selectedFilters
                             isShowFilter = true
                         } label: {
-                            Image(systemName: "line.3.horizontal.decrease.circle.fill")
+                            Image(systemName: selectedFilters.isEmpty ? "line.3.horizontal.decrease.circle" : "line.3.horizontal.decrease.circle.fill")
                                 .resizable()
                                 .frame(width: 20, height: 20)
                                 .foregroundColor(.orange)
