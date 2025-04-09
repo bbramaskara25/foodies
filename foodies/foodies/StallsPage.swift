@@ -103,6 +103,7 @@ struct StallsPage: View {
                     .background(Color.orange.opacity(0.2))
                     .cornerRadius(10)
                     .padding(.horizontal)
+                    .padding(.bottom, 10)
 
                     // List of stalls
                     List(filteredStalls, id: \.id) { stall in
