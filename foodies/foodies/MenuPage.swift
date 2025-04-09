@@ -21,6 +21,19 @@ class OrderItem {
     }
 }
 
+extension View {
+    func hideKeyboardOnTap() -> some View {
+        self.gesture(
+            TapGesture().onEnded {
+                UIApplication.shared.sendAction(
+                    #selector(UIResponder.resignFirstResponder),
+                    to: nil, from: nil, for: nil
+                )
+            }
+        )
+    }
+}
+
 struct MenuPage: View {
     @Environment(\.modelContext) private var modelContext
     @State private var orderItemsState: [OrderItem] = []
@@ -58,6 +71,7 @@ struct MenuPage: View {
             )
             .frame(maxWidth: .infinity)
         }
+        .hideKeyboardOnTap()
         .ignoresSafeArea(edges: .bottom)
         .onAppear {
             orderItemsState = stall.menuList.map {

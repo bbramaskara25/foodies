@@ -34,9 +34,11 @@ struct StartPage: View {
 
     private var introView: some View {
         VStack {
-            Text("Halo! Bingung mau makan apa? Yuk cobain rekomendasi dari kami!")
-                .font(.system(size: 20))
-                .padding()
+            Text("Hallo! Bingung mau makan apa? Yuk cobain rekomendasi dari kami!")
+                .font(.system(size: 22))
+                    .multilineTextAlignment(.center)
+                    .frame(maxWidth: .infinity)
+                    .padding()
 
             Button(action: viewModel.startChat) {
                 Image("FirstStart")

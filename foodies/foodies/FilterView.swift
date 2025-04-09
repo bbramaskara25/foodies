@@ -13,73 +13,92 @@ struct FilterView: View {
     @Environment(\.dismiss) var dismiss
 
     var body: some View {
-        VStack {
-            Text("Filters")
-                .font(.largeTitle)
-                .padding(.top)
-
-            Group {
-                FilterButton(
-                    segmentTitle: "Location",
-                    itemTitle: ["GOP 1", "GOP 6", "GOP 9"],
-                    selectedFilters: $selectedFilters
-                )
-                FilterButton(
-                    segmentTitle: "Price Range",
-                    itemTitle: ["<Rp 10k", "Rp 10-20k", ">Rp 20k"],
-                    selectedFilters: $selectedFilters
-                )
-                FilterButton(
-                    segmentTitle: "Category",
-                    itemTitle: ["Nasi", "Mie", "Cemilan", "Sayuran", "Berkuah", "Minuman"],
-                    selectedFilters: $selectedFilters
-                )
-                FilterButton(
-                    segmentTitle: "Rating",
-                    itemTitle: [">1", ">2", ">3", ">4", "5"],
-                    selectedFilters: $selectedFilters
-                )
-                FilterButton(
-                    segmentTitle: "Tried Before",
-                    itemTitle: ["Yes", "No"],
-                    selectedFilters: $selectedFilters
-                )
-            }
-            .padding(.top, 12)
-            .padding(.horizontal)
-
-            Spacer()
-
+        NavigationStack{
             VStack {
-                Text("Total: \(selectedFilters.reduce(0) { $0 + $1.value.count }) filters applied")
-                    .font(.headline)
+                Text("Filters")
+                    .font(.largeTitle)
+                    .padding(.top, -30)
 
-                Button(action: {
-                    applyFilters()
-                    dismiss()
-                }) {
-                    Text("Apply")
-                        .frame(maxWidth: .infinity)
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 16)
-                        .background(Color.orange)
-                        .cornerRadius(10)
-                        .frame(width: 300, height: 50, alignment: .center)
+                Group {
+                    FilterButton(
+                        segmentTitle: "Lokasi",
+                        itemTitle: ["GOP 1", "GOP 6", "GOP 9"],
+                        selectedFilters: $selectedFilters
+                    )
+                    FilterButton(
+                        segmentTitle: "Harga",
+                        itemTitle: ["<Rp15.000", "<Rp25.000", ">=Rp25.000"],
+                        selectedFilters: $selectedFilters
+                    )
+                    FilterButton(
+                        segmentTitle: "Kategori",
+                        itemTitle: ["Nasi", "Mie", "Cemilan", "Sayuran", "Berkuah", "Minuman"],
+                        selectedFilters: $selectedFilters
+                    )
+                    FilterButton(
+                        segmentTitle: "Rating",
+                        itemTitle: [">1", ">2", ">3", ">4", "5"],
+                        selectedFilters: $selectedFilters
+                    )
+                    FilterButton(
+                        segmentTitle: "Pernah Dipesan",
+                        itemTitle: ["Yes", "No"],
+                        selectedFilters: $selectedFilters,
+                        isSingleSelection: true
+                    )
                 }
+                .padding(.top, 12)
                 .padding(.horizontal)
-                .padding(.bottom)
+
+                Spacer()
+
+                VStack {
+                    Text("Total: \(selectedFilters.reduce(0) { $0 + $1.value.count }) filters applied")
+                        .font(.headline)
+
+                    Button(action: {
+                        applyFilters()
+                        dismiss()
+                    }) {
+                        Text("Apply")
+                            .frame(maxWidth: .infinity)
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 16)
+                            .background(Color.orange)
+                            .cornerRadius(10)
+                            .frame(width: 300, height: 50, alignment: .center)
+                    }
+                    .padding(.horizontal)
+                    .padding(.bottom)
+                }
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .padding()
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button("Reset") {
+                        selectedFilters = [:]
+                    }
+                    .foregroundColor(.red)
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Dismiss") {
+                        dismiss()
+                    }
+                    .foregroundColor(.orange)
+                }
+            }
+
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .padding()
-    }
+        }
 }
 
 struct FilterButton: View {
     var segmentTitle: String
     var itemTitle: [String]
     @Binding var selectedFilters: [String: Set<String>]
+    var isSingleSelection: Bool = false
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -113,15 +132,23 @@ struct FilterButton: View {
     }
 
     private func toggleSelection(for option: String) {
-        if selectedFilters[segmentTitle]?.contains(option) == true {
-            selectedFilters[segmentTitle]?.remove(option)
-            if selectedFilters[segmentTitle]?.isEmpty == true {
-                selectedFilters.removeValue(forKey: segmentTitle)
+            if isSingleSelection {
+                if selectedFilters[segmentTitle]?.contains(option) == true {
+                    selectedFilters.removeValue(forKey: segmentTitle)
+                } else {
+                    selectedFilters[segmentTitle] = [option]
+                }
+            } else {
+                if selectedFilters[segmentTitle]?.contains(option) == true {
+                    selectedFilters[segmentTitle]?.remove(option)
+                    if selectedFilters[segmentTitle]?.isEmpty == true {
+                        selectedFilters.removeValue(forKey: segmentTitle)
+                    }
+                } else {
+                    selectedFilters[segmentTitle, default: []].insert(option)
+                }
             }
-        } else {
-            selectedFilters[segmentTitle, default: []].insert(option)
         }
-    }
 }
 
 #Preview {
