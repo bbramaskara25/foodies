@@ -97,14 +97,10 @@ struct OrderConfirmationModal: View {
         .alert("Are you sure you want to place this order?", isPresented: $showPlaceOrderAlert) {
             Button("Cancel", role: .cancel) {}
             Button("Yes") {
-//<<<<<<< HEAD
                 stall.wasOrdered = true
-//=======
                 let menuNames = orderItems.map { "\($0.menuName) x\($0.quantity)" }
                 let order = UserOrder(menuItems: menuNames, notes: notes, total: estimatedTotal)
                 modelContext.insert(order)
-
-//>>>>>>> main
                 onPlaceOrder()
                 openWhatsApp = true
             }

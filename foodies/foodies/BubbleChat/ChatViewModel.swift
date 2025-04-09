@@ -27,18 +27,38 @@ class ChatViewModel: ObservableObject {
         let cuisine: [String]
     }
 
+    class UserOrder: Identifiable {
+        let id: UUID
+        var menuItems: [String]
+        var notes: String
+        var total: Int
+        var date: Date
+
+        init(menuItems: [String], notes: String, total: Int) {
+            self.id = UUID()
+            self.menuItems = menuItems
+            self.notes = notes
+            self.total = total
+            self.date = Date()
+        }
+    }
+
     @Published var chatMessages: [ChatMessage] = []
     @Published var hasStarted: Bool = false
     @Published var recommendedStalls: [Stall] = []
     @Published var showStallNavigationButton: Bool = false
     @Published var showRecommendations: Bool = false
 
+    @Published var chatOptions: [ChatOption] = []
+    @Published var recentOrders: [UserOrder] = []
+    @Published var isShowingConfirmationModal = false
+    @Published var selectedOrder: UserOrder? = nil
 
     private var currentQuestionIndex: Int = -1
     private var previousAnswers: [(questionIndex: Int, answer: String)] = []
 
     private let questions: [(text: String, options: [String])] = [
-        ("Sekarang kamu ada di GOP berapa?", ["GOP 1", "GOP 6", "GOP 9", "Bebas Di Mana Aja"]),
+        ("Mau nyari makan di GOP berapa?", ["GOP 1", "GOP 6", "GOP 9", "Bebas Di Mana Aja"]),
         ("Berapa budget makan kamu?", ["<Rp 20.000", "Rp 20.000 - Rp 30.000", ">Rp 30.000", "Budgetnya Bebas"]),
         ("Apakah ada cuisine favorit kamu?", ["Nasi", "Mie", "Berkuah", "Cemilan", "Sayuran", "Minuman", "Apa Aja"]),
         ("Berikut adalah rekomendasi dari kami, apakah kamu menyukainya?", ["Ya, Sesuai Dengan Saya", "Kurang Pas Nih"])
@@ -48,10 +68,10 @@ class ChatViewModel: ObservableObject {
         Stall(name: "Mustafa Minang", gop: ["GOP 9", "Bebas Di Mana Aja"], budget: ["<Rp 20.000", "Rp 20.000 - Rp 30.000", ">Rp 30.000", "Budgetnya Bebas"], cuisine: ["Nasi", "Sayuran", "Apa Aja"]),
         Stall(name: "Ahza Snack & Beverage", gop: ["GOP 9", "Bebas Di Mana Aja"], budget: ["<Rp 20.000", "Budgetnya Bebas"], cuisine: ["Cemilan", "Minuman", "Mie", "Apa Aja"]),
         Stall(name: "Kedai Aneka Rasa", gop: ["GOP 9", "Bebas Di Mana Aja"], budget: ["<Rp 20.000", "Rp 20.000 - Rp 30.000", ">Rp 30.000", "Budgetnya Bebas"], cuisine: ["Mie", "Sayuran", "Apa Aja"]),
-        Stall(name: "Kantin Kasturi", gop: ["GOP 9", "Bebas Di Mana Aja"], budget: ["<Rp 20.000", "Budgetnya Bebas"], cuisine: ["Nasi", "Sayuran", "Mie", "Cemilan", "Apa Aja"]),
+//        Stall(name: "Kantin Kasturi", gop: ["GOP 9", "Bebas Di Mana Aja"], budget: ["<Rp 20.000", "Budgetnya Bebas"], cuisine: ["Nasi", "Sayuran", "Mie", "Cemilan", "Apa Aja"]),
         Stall(name: "Kedai Laris Manis", gop: ["GOP 9", "Bebas Di Mana Aja"], budget: ["<Rp 20.000", "Budgetnya Bebas"], cuisine: ["Nasi", "Cemilan", "Apa Aja"]),
         Stall(name: "La Ding", gop: ["GOP 9", "Bebas Di Mana Aja"], budget: ["<Rp 20.000", "Rp 20.000 - Rp 30.000", ">Rp 30.000", "Budgetnya Bebas"], cuisine: ["Nasi", "Mie", "Cemilan", "Berkuah", "Minuman", "Apa Aja"]),
-        Stall(name: "Mama Djempol", gop: ["GOP 9", "Bebas Di Mana Aja"], budget: ["<Rp 20.000", "Budgetnya Bebas"], cuisine: ["Nasi", "Sayuran", "Mie", "Cemilan", "Apa Aja"]),
+//        Stall(name: "Mama Djempol", gop: ["GOP 9", "Bebas Di Mana Aja"], budget: ["<Rp 20.000", "Budgetnya Bebas"], cuisine: ["Nasi", "Sayuran", "Mie", "Cemilan", "Apa Aja"]),
         Stall(name: "Ikan & Bakso Bakwan Malang Josss", gop: ["GOP 9", "Bebas Di Mana Aja"], budget: ["<Rp 20.000", "Rp 20.000 - Rp 30.000", "Budgetnya Bebas"], cuisine: ["Berkuah", "Apa Aja"]),
         Stall(name: "Dapur Mimin", gop: ["GOP 6", "Bebas Di Mana Aja"], budget: ["<Rp 20.000", "Rp 20.000 - Rp 30.000", "Budgetnya Bebas"], cuisine: ["Cemilan", "Sayuran", "Nasi", "Apa Aja"]),
         Stall(name: "Warkop Pais", gop: ["GOP 6", "Bebas Di Mana Aja"], budget: ["<Rp 20.000", "Budgetnya Bebas"], cuisine: ["Cemilan", "Sayuran", "Mie", "Apa Aja"]),
@@ -67,7 +87,7 @@ class ChatViewModel: ObservableObject {
         showStallNavigationButton = false
         showRecommendations = false
 
-        chatMessages.append(ChatMessage(text: "Halo! Selamat datang di Foodies 👋\nYuk mulai cari rekomendasi makanan buat kamu!", isUser: false, isOption: false, options: []))
+        chatMessages.append(ChatMessage(text: "Halo! Selamat datang di Foody 👋\nYuk mulai cari rekomendasi makanan buat kamu!", isUser: false, isOption: false, options: []))
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.showNextQuestion()
@@ -191,4 +211,53 @@ class ChatViewModel: ObservableObject {
             return matchLocation && matchBudget && matchCuisine
         }
     }
-}
+    func loadInitialOptions(with userOrders: [UserOrder]) {
+            self.recentOrders = userOrders
+
+            var options: [ChatOption] = [
+                ChatOption(title: "Explore All Stalls", actionType: .exploreStalls),
+                ChatOption(title: "Use Recommender Bot", actionType: .useRecommender)
+            ]
+
+            if !userOrders.isEmpty {
+                let top3 = Array(userOrders.prefix(3))
+                for order in top3 {
+                    let menuSummary = order.menuItems.joined(separator: ", ")
+                    options.append(ChatOption(title: "Reorder: \(menuSummary)", actionType: .quickReorder(order)))
+                }
+            }
+
+            self.chatOptions = options
+        }
+
+        func handleOptionSelection(_ option: ChatOption) {
+            switch option.actionType {
+            case .exploreStalls:
+                NotificationCenter.default.post(name: .navigateToStalls, object: nil)
+            case .useRecommender:
+                startChat()
+            case .quickReorder(let order):
+                if let order = order {
+                    selectedOrder = order
+                    isShowingConfirmationModal = true
+                }
+            }
+        }
+    }
+
+    struct ChatOption: Identifiable {
+        let id = UUID()
+        let title: String
+        let actionType: ActionType
+
+        enum ActionType {
+            case exploreStalls
+            case useRecommender
+            case quickReorder(ChatViewModel.UserOrder?)
+        }
+    }
+
+    extension Notification.Name {
+        static let navigateToStalls = Notification.Name("navigateToStalls")
+        static let startRecommenderFlow = Notification.Name("startRecommenderFlow")
+    }

@@ -19,6 +19,7 @@ struct StartPage: View {
                     }
                     .padding(.top, 10)
                 }
+                
             }
         }
     }
@@ -49,14 +50,15 @@ struct StartPage: View {
     }
 
     private var chatView: some View {
-        VStack(spacing: 0) {
-            // Header
+        VStack(spacing: 1) { // Prevent space between header and messages
+            Spacer()
             Spacer()
             Spacer()
             headerView
-
+            
             ScrollViewReader { proxy in
                 ScrollView {
+                    Spacer()
                     VStack(alignment: .leading, spacing: 15) {
                         ForEach(Array(viewModel.chatMessages.indices), id: \.self) { index in
                             messageView(index)
@@ -84,7 +86,7 @@ struct StartPage: View {
                         }
                     }
                     .padding(.horizontal)
-                    .padding(.bottom, 16) // bottom spacing for scroll
+                    .padding(.bottom, 16)
                     .onChange(of: viewModel.chatMessages.count) { _ in
                         withAnimation {
                             proxy.scrollTo(viewModel.chatMessages.count - 1, anchor: .bottom)
@@ -99,32 +101,18 @@ struct StartPage: View {
 
     private var headerView: some View {
         HStack {
-            Button(action: {
-                viewModel.hasStarted = false
-            }) {
-                Image(systemName: "chevron.left")
-                    .foregroundColor(.orange)
-                    .font(.title2)
-            }
 
             ZStack {
-                Text("Recommendation Bot")
-                    .font(.system(size: 24, weight: .bold))
-                    .foregroundColor(.black)
-                    .offset(x: 1, y: 1)
-                Text("Recommendation Bot")
-                    .font(.system(size: 24, weight: .bold))
-                    .foregroundColor(.orange)
+                Image("Recommender")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 150, height: 80)
             }
-
             Spacer()
-
-            Image(systemName: "chevron.left")
-                .opacity(0)
         }
         .padding(.horizontal)
-        .padding(.vertical, 8) // smaller vertical padding
-        .background(Color.white.opacity(0.5))
+        .padding(.vertical, -15) // smaller vertical padding
+        .background(Color.white.opacity(1.0))
     }
     
     private func messageView(_ index: Int) -> some View {
