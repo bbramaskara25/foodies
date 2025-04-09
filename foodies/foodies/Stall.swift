@@ -83,7 +83,7 @@ extension Stall {
         // sisa fotonya
         Stall(
             name: "Ahza Snack & Beverage",
-            images: ["Kasturi", "Kasturi", "Kasturi"],
+            images: ["AhzaSnack"],
             rating: 4.9,
             location: "GOP 9",
             category: ["Cemilan", "Minuman", "Mie"],
@@ -128,7 +128,7 @@ extension Stall {
         // sisa fotonya
         Stall(
             name: "Kedai Aneka Rasa",
-            images: ["Kasturi", "Kasturi", "Kasturi"],
+            images: ["AnekaRasa"],
             rating: 4.7,
             location: "GOP 9",
             category: ["Mie", "Sayuran"],
@@ -165,7 +165,7 @@ extension Stall {
             ],
             whatsAppNumber: "6282116508399"
         ),
-//        // belom semua kecuali nomor
+//        // belom semua kecuali nomor (Nama Menu sudah, tinggal harga)
 //        Stall(
 //            name: "Kantin Kasturi",
 //            images: ["Kasturi", "Kasturi", "Kasturi"],
@@ -175,17 +175,53 @@ extension Stall {
 //            lowestPrice: 10000,
 //            highestPrice: 15000,
 //            menuList: [
-//                Menu(name: "Nasi Goreng", price: 10),
-//                Menu(name: "Nasi Goreng", price: 12),
-//                Menu(name: "Nasi Goreng", price: 14),
-//                Menu( name: "Nasi Goreng", price: 15)
+//                Menu(name: "Ayam Teriyaki", price: 10),
+//                Menu(name: "Ayam Bistik", price: 12),
+//                Menu(name: "Ayam Asam Manis", price: 14),
+//                Menu( name: "Ayam Lada Hitam/Fillet", price: 15),
+ //               Menu( name: "Ayam Bakar", price: 15),
+//        Menu( name: "Ayam Goreng Balado", price: 15),
+//        Menu( name: "Sapi Lada Hitam", price: 15),
+//        Menu( name: "Mapo Tofu", price: 15),
+//        Menu( name: "Ikan Cakalang Suwir", price: 15),
+//        Menu( name: "Ikan Dori Asam Manis", price: 15),
+//        Menu( name: "Ikan Sarden Rica", price: 15),
+//        Menu( name: "Ikan Tongkol Balado", price: 15),
+//        Menu( name: "Cumi Cabe Hijau", price: 15),
+//        Menu( name: "Kentang Masak Balado", price: 15),
+//        Menu( name: "Otak-otak Spore Rica", price: 15),
+//        Menu( name: "Sosis Oseng Bawang Cabe Rawit", price: 15),
+//        Menu( name: "Mie Goreng Telor", price: 15),
+//        Menu( name: "Orek Tempe Balado", price: 15),
+//        Menu( name: "Telor Masak Semur", price: 15),
+//        Menu( name: "Tahu Masak Semur", price: 15),
+//        Menu( name: "Telor Dadar Tipis", price: 15),
+//        Menu( name: "Telor Ceplok Balado", price: 15),
+//        Menu( name: "Telor Ceplok Pont Cabe Rawit", price: 15),
+//        Menu( name: "Telor Bulat Balado", price: 15),
+//        Menu( name: "Telor Puyuh Balado", price: 15),
+//        Menu( name: "Sayur Sawi Putih", price: 15),
+//        Menu( name: "Sayur Toge", price: 15),
+//        Menu( name: "Sayur Labu", price: 15),
+//        Menu( name: "Sayur Terong Balado", price: 15),
+//        Menu( name: "Sayur Krecek", price: 15),
+//        Menu( name: "Sayur Nangka", price: 15),
+//        Menu( name: "Bakwan jagung", price: 15),
+//        Menu( name: "Martabak Telor", price: 15),
+//        Menu( name: "Bakwan Sayur", price: 15),
+//        Menu( name: "Nasi Putih", price: 15),
+//        Menu( name: "Nasi Merah", price: 15),
+//        Menu( name: "Sambal Merah", price: 15),
+//        Menu( name: "Sambal Dabu-Dabu", price: 15),
+//        Menu( name: "Sambal Hijau", price: 15)
+      
 //            ],
 //            whatsAppNumber: "6281380770081"
 //        ),
         // sisa foto
         Stall(
             name: "Kedai Laris Manis",
-            images: ["Kasturi", "Kasturi", "Kasturi"],
+            images: ["LarisManis"],
             rating: 4.8,
             location: "GOP 9",
             category: ["Nasi", "Sayuran"],
@@ -211,7 +247,7 @@ extension Stall {
         // sisa foto
         Stall(
             name: "La Ding",
-            images: ["Kasturi", "Kasturi", "Kasturi"],
+            images: ["LaDing"],
             rating: 4.6,
             location: "GOP 9",
             category: ["Nasi", "Mie", "Cemilan", "Berkuah", "Minuman"],
@@ -252,7 +288,7 @@ extension Stall {
         // sisa foto
         Stall(
             name: "Ikan & Bakso Bakwan Malang Josss",
-            images: ["Kasturi", "Kasturi", "Kasturi"],
+            images: ["bakso"],
             rating: 4.8,
             location: "GOP 9",
             category: ["Berkuah"],
@@ -278,7 +314,7 @@ extension Stall {
         // sisa foto
         Stall(
             name: "Dapur Mimin",
-            images: ["Kasturi", "Kasturi", "Kasturi"],
+            images: ["DapurMimin"],
             rating: 4.8,
             location: "GOP 6",
             category: ["Cemilan", "Sayuran", "Nasi"],
@@ -308,7 +344,7 @@ extension Stall {
         // sisa foto
         Stall(
             name: "Warkop Pais",
-            images: ["Kasturi", "Kasturi", "Kasturi"],
+            images: ["warkopPais"],
             rating: 4.7,
             location: "GOP 6",
             category: ["Cemilan", "Sayuran", "Mie"],
@@ -332,7 +368,7 @@ extension Stall {
         // sisa foto
         Stall(
             name: "Nasi Kapau Nusantara",
-            images: ["Kasturi", "Kasturi", "Kasturi"],
+            images: ["NasiKapauNusantara"],
             rating: 5.0,
             location: "GOP 6",
             category: ["Nasi"],
@@ -400,7 +436,7 @@ extension Stall {
         // sisa foto
         Stall(
             name: "Dapur Kencana",
-            images: ["Kasturi", "Kasturi", "Kasturi"],
+            images: ["DapurKencana"],
             rating: 5.0,
             location: "GOP 1",
             category: ["Nasi", "Cemilan", "Berkuah", "Sayuran"],
