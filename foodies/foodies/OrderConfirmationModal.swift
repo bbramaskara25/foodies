@@ -25,93 +25,103 @@ struct OrderConfirmationModal: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            // HEADER
-            Text("Order Confirmation")
-                .font(.title)
-                .bold()
-                .padding(.top, 25) // atur jarak atas
+        NavigationStack{
+            VStack(alignment: .leading, spacing: 20) {
+                // HEADER
+                Text("Order Confirmation")
+                    .font(.title)
+                    .bold()
+                    .padding(.top, -20)
 
-            // NOTES
-            VStack(alignment: .leading, spacing: 8) {
-                Text("📝 Notes")
-                    .font(.headline)
-                TextField("e.g. No peanuts, spicy level 2", text: $notes)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-            }
+                // NOTES
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("📝 Notes")
+                        .font(.headline)
+                    TextField("e.g. No peanuts, spicy level 2", text: $notes)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                }
 
-            // ORDER SUMMARY
-            VStack(alignment: .leading, spacing: 8) {
-                Text("📋 Order Summary")
-                    .font(.headline)
+                // ORDER SUMMARY
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("📋 Order Summary")
+                        .font(.headline)
 
-                ScrollView {
-                    VStack(spacing: 8) {
-                        ForEach(orderItems) { order in
-                            HStack {
-                                Text(order.menuName)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                Text("x\(order.quantity)")
-                                    .frame(width: 40, alignment: .center)
-                                Text("Rp \(order.price * order.quantity),-")
-                                    .frame(width: 100, alignment: .trailing)
+                    ScrollView {
+                        VStack(spacing: 8) {
+                            ForEach(orderItems) { order in
+                                HStack {
+                                    Text(order.menuName)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                    Text("x\(order.quantity)")
+                                        .frame(width: 40, alignment: .center)
+                                    Text("Rp \(order.price * order.quantity),-")
+                                        .frame(width: 100, alignment: .trailing)
+                                }
+                                .padding(.vertical, 4)
+                                Divider()
                             }
-                            .padding(.vertical, 4)
-                            Divider()
+                        }
+                        .padding(.horizontal) // hindari terlalu banyak padding
+                    }
+                    .frame(maxWidth: .infinity)
+                    .background(Color(.systemGray6).opacity(0.5))
+                    .cornerRadius(12)
+                }
+
+                Spacer() // untuk mendorong total & tombol ke bawah
+
+                // TOTAL ITEMS + ESTIMASI
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("🍽️ Total Items: \(totalItems)")
+                        .font(.headline)
+                    Text("💰 Estimated Total: Rp \(estimatedTotal.formatted(.number.grouping(.automatic))),-")
+                        .font(.headline)
+                }
+
+                // PLACE ORDER BUTTON
+                Button(action: {
+                    showPlaceOrderAlert = true
+                }) {
+                    HStack {
+                        Image(systemName: "paperplane.fill")
+                        Text("Place Order via WhatsApp")
+                            .bold()
+                    }
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.orange)
+                    .cornerRadius(12)
+                }
+            }
+            .padding()
+            .toolbar {
+                        ToolbarItem(placement: .topBarTrailing) {
+                            Button("Cancel") {
+                                dismiss()
+                            }
+                            .foregroundColor(.red)
                         }
                     }
-                    .padding(.horizontal) // hindari terlalu banyak padding
+            .alert("Are you sure you want to place this order?", isPresented: $showPlaceOrderAlert) {
+                Button("Cancel", role: .cancel) {}
+                Button("Yes") {
+    //<<<<<<< HEAD
+                    stall.wasOrdered = true
+    //=======
+                    let menuNames = orderItems.map { "\($0.menuName) x\($0.quantity)" }
+                    let order = UserOrder(menuItems: menuNames, notes: notes, total: estimatedTotal)
+                    modelContext.insert(order)
+
+    //>>>>>>> main
+                    onPlaceOrder()
+                    openWhatsApp = true
                 }
-                .frame(maxWidth: .infinity)
-                .background(Color(.systemGray6).opacity(0.5))
-                .cornerRadius(12)
             }
-
-            Spacer() // untuk mendorong total & tombol ke bawah
-
-            // TOTAL ITEMS + ESTIMASI
-            VStack(alignment: .leading, spacing: 4) {
-                Text("🍽️ Total Items: \(totalItems)")
-                    .font(.headline)
-                Text("💰 Estimated Total: Rp \(estimatedTotal.formatted(.number.grouping(.automatic))),-")
-                    .font(.headline)
-            }
-
-            // PLACE ORDER BUTTON
-            Button(action: {
-                showPlaceOrderAlert = true
-            }) {
-                HStack {
-                    Image(systemName: "paperplane.fill")
-                    Text("Place Order via WhatsApp")
-                        .bold()
+            .onChange(of: openWhatsApp) {
+                if openWhatsApp {
+                    openWhatsAppURL()
                 }
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(Color.orange)
-                .cornerRadius(12)
-            }
-        }
-        .padding()
-        .alert("Are you sure you want to place this order?", isPresented: $showPlaceOrderAlert) {
-            Button("Cancel", role: .cancel) {}
-            Button("Yes") {
-//<<<<<<< HEAD
-                stall.wasOrdered = true
-//=======
-                let menuNames = orderItems.map { "\($0.menuName) x\($0.quantity)" }
-                let order = UserOrder(menuItems: menuNames, notes: notes, total: estimatedTotal)
-                modelContext.insert(order)
-
-//>>>>>>> main
-                onPlaceOrder()
-                openWhatsApp = true
-            }
-        }
-        .onChange(of: openWhatsApp) {
-            if openWhatsApp {
-                openWhatsAppURL()
             }
         }
     }

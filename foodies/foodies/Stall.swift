@@ -34,7 +34,10 @@ class Stall: ObservableObject, Identifiable {
     }
 }
 
-
+struct Menu: Codable{
+    var name: String
+    var price: Int
+}
 
 extension Stall {
     static let all: [Stall] = [
