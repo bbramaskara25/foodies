@@ -26,9 +26,15 @@ struct StallsPage: View {
             let matchesPrice = selectedFilters["Price Range"].map { filters in
                 filters.contains(where: { filter in
                     switch filter {
+//<<<<<<< HEAD
                     case "<10k": return stall.lowestPrice < 10000
                     case "10-20k": return stall.lowestPrice >= 10000 && stall.highestPrice <= 20000
                     case ">20k": return stall.highestPrice > 20000
+//=======
+                    case "<Rp 10k": return stall.lowestPrice < 10
+                    case "Rp 10-20k": return stall.lowestPrice >= 10 && stall.highestPrice <= 20
+                    case ">Rp 20k": return stall.highestPrice > 20
+//>>>>>>> main
                     default: return false
                     }
                 })
