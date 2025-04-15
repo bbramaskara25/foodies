@@ -2,6 +2,8 @@
 
 **Foody** is a native iOS app that helps users find and order meals from stalls in their area using a chat-based recommender system. Users can explore all stalls, interact with a friendly Q&A chatbot to get personalized suggestions, or quickly reorder from their order history.
 
+Main branch name: "coba" (instead of main)
+
 ![Foody Banner](banner.png) <!-- optional screenshot/banner -->
 
 ---
